@@ -33,23 +33,23 @@ defmodule Pos.Staff do
           {:ok, staff}
       end
 
-      access1 = "ALL"
-      access2 = "MENU"
+      # access1 = "ALL"
+      # access2 = "MENU"
 
-      accessid = u_token
-      restaurentId = restaurent_token
-      restaurent_id = restaurent_token
-      section = "Staff"
-      task = "ADD"
-      time = DateTime.utc_now()
+      # accessid = u_token
+      # restaurentId = restaurent_token
+      # restaurent_id = restaurent_token
+      # section = "Staff"
+      # task = "ADD"
+      # time = DateTime.utc_now()
 
-      staffData = Staff.getTokenByAccess(restaurent_id, access1, access2)
-      count = Enum.count(staffData)
+      # staffData = Staff.getTokenByAccess(restaurent_id, access1, access2)
+      # count = Enum.count(staffData)
 
-      for i <- 0..count-1, i >= 0 do
-        staffId = Enum.at(staffData, i)
-        Queue.addQueueData(accessid, restaurentId, section, staffId, task, time)
-      end
+      # for i <- 0..count-1, i >= 0 do
+      #   staffId = Enum.at(staffData, i)
+      #   Queue.addQueueData(accessid, restaurentId, section, staffId, task, time)
+      # end
   end
 
   def authenticate(number,active_token) do
