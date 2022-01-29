@@ -16,8 +16,9 @@ defmodule PosWeb.RestController do
       password = number
       restaurent_token = token
       u_token = token
+      is_active = true
       with {:ok, restaurent} <- Restaurent.register(address, email_id, image_url, latitude, longitude, name, number, token),
-           {:ok, staff} <- Staff.add_staff(access, uname, number, password, restaurent_token, u_token) do
+           {:ok, staff} <- Staff.add_staff(access, uname, number, password, restaurent_token, u_token, is_active) do
 
             conn
             |> json(%{
@@ -32,6 +33,22 @@ defmodule PosWeb.RestController do
               "address" => restaurent.address
             })
       end
+  end
+
+  def addAdmin(conn, %{ "name" => name}) do
+    access = "ALL"
+    uname = name
+    password = "number"
+    restaurent_token = "RLvzhl7YdqwpCmF9Qcd4qQpG3hfh9KPMr0gq5nnPv0wLgVs0IxCdozpQdEBJCTR6Iqh6GqV5OLERk"
+    u_token = "RLvzhl7YdqwpCmF9Qcd4qQpG3hfh9KPMr0gq5nnPv0wLgVs0IxCdozpQdEBJCTR6Iqh6GqV5OLERk"
+    is_active = true
+    number = "8157896995"
+    Staff.add_staff(access, uname, number, password, restaurent_token, u_token, is_active)
+    conn
+    |> json(%{
+      "is_registerd" => true,
+      "u_token" => u_token
+    })
   end
 
   def getRestaurentDetails(conn, %{"token" => token}) do
