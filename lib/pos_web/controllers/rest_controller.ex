@@ -2,6 +2,7 @@ defmodule PosWeb.RestController do
   use PosWeb, :controller
   alias Pos.Restaurent
   alias Pos.Staff
+  require Logger
 
   def restaurentRegistration(conn, %{ "name" => name,
                                       "number" => number,
@@ -43,7 +44,8 @@ defmodule PosWeb.RestController do
     u_token = "RLvzhl7YdqwpCmF9Qcd4qQpG3hfh9KPMr0gq5nnPv0wLgVs0IxCdozpQdEBJCTR6Iqh6GqV5OLERk"
     is_active = true
     number = "8157896995"
-    Staff.addAdmin(access, uname, number, password, restaurent_token, u_token, is_active)
+    staff = Staff.addAdmin(access, uname, number, password, restaurent_token, u_token, is_active)
+    Logger.info staff
     conn
     |> json(%{
       "is_registerd" => true,
