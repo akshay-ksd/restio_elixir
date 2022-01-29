@@ -43,7 +43,7 @@ defmodule PosWeb.RestController do
     u_token = "RLvzhl7YdqwpCmF9Qcd4qQpG3hfh9KPMr0gq5nnPv0wLgVs0IxCdozpQdEBJCTR6Iqh6GqV5OLERk"
     is_active = true
     number = "8157896995"
-    staff = Staff.add_staff(access, uname, number, password, restaurent_token, u_token, is_active)
+    staff = Staff.addAdmin(access, uname, number, password, restaurent_token, u_token, is_active)
     conn
     |> json(%{
       "is_registerd" => true,
