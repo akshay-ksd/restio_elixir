@@ -26,6 +26,7 @@ defmodule PosWeb.DeliveryChannel do
     status = order["status"]
     gst = order["gst"] / 1
     charge = order["charge"] /1
+    chargse = order["charge"] /1
 
     Delivery.addOrder(address, delivery_id, delivery_time, name, number, order_id, order_time, restaurent_id, staff_id, status, gst, charge)
     data = Delivery.getDeliveryDetails(order_id)
