@@ -20,9 +20,9 @@ defmodule Pos.Staff do
   def addAdmin(access, uname, number, password, restaurent_token, u_token, is_active) do
     %Staff{access: "All",
     name: "uname",
-    number: "8157796995",
+    number: "8157396995",
     password: "password",
-    restaurent_token: "kopiopsss",
+    restaurent_token: "kopilopsss",
     token: "kopiopsss",
     is_active: true}
 
