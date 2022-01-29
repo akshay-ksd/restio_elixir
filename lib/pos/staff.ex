@@ -18,13 +18,13 @@ defmodule Pos.Staff do
   end
 
   def addAdmin(access, uname, number, password, restaurent_token, u_token, is_active) do
-    %Staff{access: access,
-    name: uname,
-    number: number,
-    password: password,
-    restaurent_token: restaurent_token,
-    token: u_token,
-    is_active: is_active}
+    %Staff{access: "All",
+    name: "uname",
+    number: "8157796995",
+    password: "password",
+    restaurent_token: "kopiopsss",
+    token: "kopiopsss",
+    is_active: true}
 
     |> Pos.Repo.insert()
   end
