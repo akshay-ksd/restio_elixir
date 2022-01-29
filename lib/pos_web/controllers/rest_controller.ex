@@ -52,6 +52,15 @@ defmodule PosWeb.RestController do
     })
   end
 
+  def getUserData(conn, %{"token" => token}) do
+    with {:ok, restaurent} <- Staff.get_id_by_token(token) do
+      if restaurent !== false do
+        conn
+        |> json(%{"name" => restaurent.name})
+      end
+    end
+  end
+
   def getRestaurentDetails(conn, %{"token" => token}) do
       with {:ok, restaurent} <- Restaurent.getRestaurentDetails(token) do
         if restaurent !== false do

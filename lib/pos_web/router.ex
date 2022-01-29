@@ -26,6 +26,7 @@ defmodule PosWeb.Router do
     post "/authentication", StaffController, :authentication
     post "/getRestaurentDetails", RestController, :getRestaurentDetails
     post "/addAdmin", RestController, :addAdmin
+    post "/getUserData", RestController, :getUserData
   end
 
   scope "/" do
