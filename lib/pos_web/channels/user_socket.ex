@@ -48,10 +48,11 @@ defmodule PosWeb.UserSocket do
   # def id(_socket), do: nil
 
   def connect(%{"token" => token}, socket) do
-    {:ok, user} = Staff.get_id_by_token(token)
-    if user !== false do
-       {:ok, assign(socket, :user_id, user.id)}
-    end
+    # {:ok, user} = Staff.get_id_by_token(token)
+    # if user !== false do
+    #    {:ok, assign(socket, :user_id, 1)}
+    # end
+    {:ok, assign(socket, :user_id, 1)}
   end
 
   def id(socket), do: "users_socket:#{socket.assigns.user_id}"
