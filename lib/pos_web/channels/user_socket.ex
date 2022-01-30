@@ -1,6 +1,7 @@
 defmodule PosWeb.UserSocket do
   use Phoenix.Socket
   alias Pos.Staff
+  require Logger
   ## Channels
   channel "menu:*", PosWeb.MenuChannel
   channel "product:*", PosWeb.ProductChannel
@@ -48,7 +49,8 @@ defmodule PosWeb.UserSocket do
   # def id(_socket), do: nil
 
   def connect(%{"token" => token}, socket) do
-    # {:ok, user} = Staff.get_id_by_token(token)
+    {:ok, user} = Staff.get_id_by_token(token)
+    Logger.info user
     # if user !== false do
     #    {:ok, assign(socket, :user_id, 1)}
     # end
