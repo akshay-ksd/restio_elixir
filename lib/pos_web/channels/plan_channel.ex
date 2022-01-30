@@ -21,7 +21,7 @@ defmodule PosWeb.PlanChannel do
 
     Plans.addPlan(days, name, plan_id, price)
 
-    broadcast!(socket, "addRest", %{"data" => data})
+    broadcast!(socket, "addPlan", %{"data" => data})
     {:noreply, socket}
   end
 
