@@ -116,7 +116,7 @@ defmodule PosWeb.DeliveryChannel do
                 order_data = Enum.at(delivery, d)
                 data_order = Enum.at(order_data, 5)
                 order_id = elem(data_order, 1)
-
+                Logger.info order_id
                 productDetails = Delivery.getDeliveryDetails(order_id)
 
                 order_details = %{"delivery" => delivery,
