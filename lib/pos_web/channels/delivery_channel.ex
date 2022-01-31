@@ -114,10 +114,8 @@ defmodule PosWeb.DeliveryChannel do
             if dcount !== 0 do
               for d <- 0..dcount-1, d >= 0  do
                 order_data = Enum.at(delivery, d)
-                Logger.info order_data
                 data_order = Enum.at(order_data, 7)
                 order_id = elem(data_order, 1)
-                Logger.info order_id
                 productDetails = Delivery.getDeliveryDetails(order_id)
 
                 order_details = %{"delivery" => delivery,
