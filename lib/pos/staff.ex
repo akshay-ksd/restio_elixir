@@ -131,7 +131,7 @@ defmodule Pos.Staff do
   def getStaffDataByRestaurenToken(restaurentId) do
     from(p in Staff, where: p.restaurent_token == ^restaurentId,
     select: %{access: p.access,name: p.name,number: p.number,password: p.password,
-              restaurent_token: p.restaurent_token,token: p.token})
+              restaurent_token: p.restaurent_token,token: p.token,is_active: p.is_active})
     |> Pos.Repo.all()
   end
 
