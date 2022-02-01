@@ -9,6 +9,7 @@ defmodule PosWeb.DeliveryChannel do
 
   def join("delivery:" <> _restaurentId, %{"position" => position}, socket) do
     send(self(), {:after_join, position})
+
     {:ok, %{"delivery" => true}, socket}
   end
 
@@ -77,7 +78,7 @@ defmodule PosWeb.DeliveryChannel do
       longitude: position["longitude"],
       uToken: position["uToken"]
     })
-
+    Logger.info position
     push(socket, "presence_state", Presence.list(socket))
     {:noreply, socket}
   end
