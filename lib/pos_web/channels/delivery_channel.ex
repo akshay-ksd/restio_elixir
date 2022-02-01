@@ -70,8 +70,6 @@ defmodule PosWeb.DeliveryChannel do
     {:noreply, socket}
   end
 
-  @spec handle_info({:after_join, nil | maybe_improper_list | map}, Phoenix.Socket.t()) ::
-          {:noreply, Phoenix.Socket.t()}
   def handle_info({:after_join, position}, socket) do
     {:ok, _} = Presence.track(socket, socket.assigns.user_id, %{
       online_at: inspect(System.system_time(:second)),
@@ -86,11 +84,12 @@ defmodule PosWeb.DeliveryChannel do
 
   def handle_in("update_position", %{"position" => position}, socket) do
     {:ok, _} = Presence.update(socket, socket.assigns.user_id, %{
-      online_at: inspect(System.system_time(:second)),
-      latitude: position["latitude"],
-      longitude: position["longitude"],
-      uToken: position["uToken"]
+        online_at: inspect(System.system_time(:second)),
+        latitude: position["latitude"],
+        longitude: position["longitude"],
+        uToken: position["uToken"]
     })
+
    {:noreply, socket}
  end
 
