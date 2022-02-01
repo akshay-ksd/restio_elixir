@@ -8,12 +8,7 @@ defmodule PosWeb.DeliveryChannel do
   intercept ["newOrder","deleteDelivery","updateStatus","checkQueue","deleteQue"]
 
   def join("delivery:" <> _restaurentId, %{"position" => position}, socket) do
-    task = position["task"]
-
-    if task == "DELIVERY" do
-      send(self(), {:after_join, position})
-    end
-
+    send(self(), {:after_join, position})
     {:ok, %{"delivery" => true}, socket}
   end
 
