@@ -2,6 +2,7 @@ defmodule Pos.Order do
   use Ecto.Schema
   import Ecto.{Query, Changeset}, warn: false
   alias Pos.Order
+  require Logger
 
   schema "order" do
     field :order_detail_id, :string
@@ -25,17 +26,21 @@ defmodule Pos.Order do
     }
 
     |> Pos.Repo.insert()
+
+    Logger.info "insert"
   end
 
   def updateOrderData(order_detail_id,order_id,quantity,restaurent_id) do
     Pos.Repo.get_by(Order, order_detail_id: order_detail_id, order_id: order_id,restaurent_id: restaurent_id)
     |> Ecto.Changeset.change(%{quantity: quantity})
     |> Pos.Repo.update()
+    Logger.info "update"
   end
 
   def deleteOrderData(order_detail_id,order_id,restaurent_id) do
     data = Pos.Repo.get_by(Order, restaurent_id: restaurent_id,order_detail_id: order_detail_id,order_id: order_id)
     Pos.Repo.delete(data)
+    Logger.info "delete"
   end
 
   def getOrderDetailsById(restaurentId, orderId) do
