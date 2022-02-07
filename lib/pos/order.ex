@@ -27,6 +27,17 @@ defmodule Pos.Order do
     |> Pos.Repo.insert()
   end
 
+  def updateOrderData(order_detail_id,order_id,quantity,restaurent_id) do
+    Pos.Repo.get_by(Order, order_detail_id: order_detail_id, order_id: order_id,restaurent_id: restaurent_id)
+    |> Ecto.Changeset.change(%{quantity: quantity})
+    |> Pos.Repo.update()
+  end
+
+  def deleteOrderData(order_detail_id,order_id,restaurent_id) do
+    data = Pos.Repo.get_by(Order, restaurent_id: restaurent_id,order_detail_id: order_detail_id,order_id: order_id)
+    Pos.Repo.delete(data)
+  end
+
   def getOrderDetailsById(restaurentId, orderId) do
     from(p in Order, where: p.restaurent_id == ^restaurentId and p.order_id == ^orderId,
     select: %{order_detail_id: p.order_detail_id, order_id: p.order_id, price: p.price, product_id: p.product_id, quantity: p.quantity, restaurent_id: p.restaurent_id})

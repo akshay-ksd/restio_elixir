@@ -77,6 +77,12 @@ defmodule Pos.OrderMaster do
     end
   end
 
+  def updateOrderData(order_id,restaurent_id,gst,charge) do
+    Pos.Repo.get_by(OrderMaster, order_id: order_id,restaurent_id: restaurent_id)
+    |> Ecto.Changeset.change(%{status: 1,gst: gst,charge: charge})
+    |> Pos.Repo.update()
+  end
+
   def getOrderById(restaurentId,orderId) do
     from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and p.order_id == ^orderId,
     select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time, user_id: p.user_id, gst: p.gst, charge: p.charge})

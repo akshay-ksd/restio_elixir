@@ -64,6 +64,43 @@ defmodule PosWeb.OrderChannel do
     {:noreply, socket}
   end
 
+  def handle_in("updateOrder", %{"order_data" => order_data}, socket) do
+    order_id = order_data["order_id"]
+    restaurent_id = order_data["restaurent_id"]
+    product = order_data["product"]
+    charge = order_data["charge"]
+    gst = order_data["gst"]
+
+    count = length(product)
+
+    OrderMaster.updateOrderData(order_id, restaurent_id, gst, charge)
+    for i <- 0..count-1, i >= 0 do
+      product_data = Enum.at(order_data["product"] |> List.flatten(), i)
+
+      order_detail_id = product_data["order_detail_id"]
+      order_id = product_data["order_id"]
+      price = product_data["price"]
+      product_id = product_data["product_id"]
+      quantity = product_data["quantity"]
+      restaurent_id = product_data["restaurent_id"]
+      task = product_data["task"]
+
+      cond do
+        task == "INSERT" ->
+         Order.insertOrderData(order_detail_id,order_id,price,product_id,quantity,restaurent_id)
+
+        task == "UPDATE" ->
+         Order.updateOrderData(order_detail_id, order_id, quantity, restaurent_id)
+
+        task == "DELETE" ->
+          Order.deleteOrderData(order_detail_id, order_id, restaurent_id)
+      end
+    end
+
+    broadcast!(socket, "updateOrder", %{product: order_data})
+    {:noreply, socket}
+  end
+
   def handle_in("checkQueue", %{"data" => data}, socket) do
     staffId = data["utoken"]
     restaurentId = data["rtoken"]
@@ -97,6 +134,11 @@ defmodule PosWeb.OrderChannel do
   end
 
   def handle_out("checkQueue", payload, socket) do
+    push(socket, "checkQueue", payload)
+    {:noreply, socket}
+  end
+
+  def handle_out("updateOrder", payload, socket) do
     push(socket, "checkQueue", payload)
     {:noreply, socket}
   end

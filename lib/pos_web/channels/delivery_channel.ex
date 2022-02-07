@@ -77,7 +77,6 @@ defmodule PosWeb.DeliveryChannel do
       longitude: position["longitude"],
       uToken: position["uToken"]
     })
-    Logger.info position
     push(socket, "presence_state", Presence.list(socket))
     {:noreply, socket}
   end

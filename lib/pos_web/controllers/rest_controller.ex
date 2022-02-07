@@ -2,7 +2,6 @@ defmodule PosWeb.RestController do
   use PosWeb, :controller
   alias Pos.Restaurent
   alias Pos.Staff
-  require Logger
 
   def restaurentRegistration(conn, %{ "name" => name,
                                       "number" => number,
