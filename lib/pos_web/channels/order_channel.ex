@@ -126,14 +126,14 @@ defmodule PosWeb.OrderChannel do
             order_detail_id =  Enum.at(queue_data, i)
             order = Order.getOrderDetailsByDetailId(order_detail_id, restaurentId)
 
-            broadcast!(socket, "checkQueue", %{"order" => order,"order_details" => false,"task" => task,"staffId" => staffId})
+            broadcast!(socket, "checkQueue", %{"order" => false,"order_details" => order,"task" => task,"staffId" => staffId})
           end
 
         task == "PRODUCT_DELETE" ->
           for i <- 0..count-1, i >= 0 do
             order_detail_id =  Enum.at(queue_data, i)
 
-            broadcast!(socket, "checkQueue", %{"order" => order_detail_id,"order_details" => false,"task" => task,"staffId" => staffId})
+            broadcast!(socket, "checkQueue", %{"order" => false,"order_details" => order_detail_id,"task" => task,"staffId" => staffId})
           end
       end
 
