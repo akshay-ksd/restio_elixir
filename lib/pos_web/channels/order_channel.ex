@@ -124,6 +124,7 @@ defmodule PosWeb.OrderChannel do
         task == "PRODUCT_ADD" or  task == "PRODUCT_UPDATE" ->
           for i <- 0..count-1, i >= 0 do
             order_detail_id =  Enum.at(queue_data, i)
+            Logger.info order_detail_id
             order = Order.getOrderDetailsByDetailId(order_detail_id, restaurentId)
 
             broadcast!(socket, "checkQueue", %{"order" => false,"order_details" => order,"task" => task,"staffId" => staffId})
