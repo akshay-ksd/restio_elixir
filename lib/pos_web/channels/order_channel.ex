@@ -87,7 +87,7 @@ defmodule PosWeb.OrderChannel do
 
       cond do
         task == "INSERT" ->
-         Order.insertOrderData(order_detail_id,order_id,price,product_id,quantity,restaurent_id)
+         Order.insertSingleOrderData(order_detail_id,order_id,price,product_id,quantity,restaurent_id)
 
         task == "UPDATE" ->
          Order.updateOrderData(order_detail_id, order_id, quantity, restaurent_id)
@@ -110,13 +110,33 @@ defmodule PosWeb.OrderChannel do
     queue_data = Queue.getQueue(restaurentId, staffId, section, task)
     count = Enum.count(queue_data)
     if count !== 0 do
-      for i <- 0..count-1, i >= 0 do
-        orderId =  Enum.at(queue_data, i)
-        order = OrderMaster.getOrderById(restaurentId, orderId)
-        order_details = Order.getOrderDetailsById(restaurentId, orderId)
 
-        broadcast!(socket, "checkQueue", %{"order" => order,"order_details" => order_details,"task" => task,"staffId" => staffId})
+      cond do
+        task == "ADD" or task == "UPDATE" ->
+          for i <- 0..count-1, i >= 0 do
+              orderId =  Enum.at(queue_data, i)
+              order = OrderMaster.getOrderById(restaurentId, orderId)
+              order_details = Order.getOrderDetailsById(restaurentId, orderId)
+
+              broadcast!(socket, "checkQueue", %{"order" => order,"order_details" => order_details,"task" => task,"staffId" => staffId})
+          end
+
+        task == "PRODUCT_ADD" or  task == "PRODUCT_UPDATE" ->
+          for i <- 0..count-1, i >= 0 do
+            order_detail_id =  Enum.at(queue_data, i)
+            order = Order.getOrderDetailsByDetailId(order_detail_id, restaurentId)
+
+            broadcast!(socket, "checkQueue", %{"order" => order,"order_details" => false,"task" => task,"staffId" => staffId})
+          end
+
+        task == "PRODUCT_DELETE" ->
+          for i <- 0..count-1, i >= 0 do
+            order_detail_id =  Enum.at(queue_data, i)
+
+            broadcast!(socket, "checkQueue", %{"order" => order_detail_id,"order_details" => false,"task" => task,"staffId" => staffId})
+          end
       end
+
     else
       broadcast!(socket, "checkQueue", %{"order" => false,"order_details" => false,"task" => task,"staffId" => staffId})
     end
