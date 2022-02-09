@@ -128,15 +128,14 @@ defmodule PosWeb.OrderChannel do
             ocount = Enum.count(order)
 
             if ocount !== 0 do
-              for o <- 0..ocount-1, o >= 0  do
-                order_data = Enum.at(order, o)
-                data_order = Enum.at(order_data, 1)
-                orderId = elem(data_order, 1)
-                order_master = OrderMaster.getOrderById(restaurentId, orderId)
+                for o <- 0..ocount-1, o >= 0  do
+                    order_data = Enum.at(order, o)
+                    data_order = Enum.at(order_data, 1)
+                    orderId = elem(data_order, 1)
+                    order_master = OrderMaster.getOrderById(restaurentId, orderId)
 
-                broadcast!(socket, "checkQueue", %{"order" => order_master,"order_details" => order,"task" => task,"staffId" => staffId})
-                Logger.info order_master
-              end
+                    broadcast!(socket, "checkQueue", %{"order" => order_master,"order_details" => order,"task" => task,"staffId" => staffId})
+                end
             else
               broadcast!(socket, "checkQueue", %{"order" => false,"order_details" => order,"task" => task,"staffId" => staffId})
             end

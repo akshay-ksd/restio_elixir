@@ -115,7 +115,7 @@ defmodule Pos.Staff do
   end
 
   def getTokenByAccess(restaurent_id,access1,access2) do
-    from(p in Staff, where: p.restaurent_token == ^restaurent_id and p.access == ^access1,
+    from(p in Staff, where: p.restaurent_token == ^restaurent_id and p.access == ^access1 and p.access == ^access2,
                      select: p.token)
 
     |> Pos.Repo.all()
