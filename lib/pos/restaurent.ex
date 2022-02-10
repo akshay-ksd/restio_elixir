@@ -14,6 +14,7 @@ defmodule Pos.Restaurent do
     field :token, :string
     field :charge, :integer
     field :gst, :integer
+    field :tableCount, :integer
 
     timestamps()
   end
@@ -64,10 +65,16 @@ defmodule Pos.Restaurent do
     |> Pos.Repo.update()
   end
 
+  def updateTableCount(token,tableCount) do
+    Pos.Repo.get_by(Restaurent, token: token)
+    |> Ecto.Changeset.change(%{tableCount: tableCount})
+    |> Pos.Repo.update()
+  end
+
   @doc false
   def changeset(restaurent, attrs) do
     restaurent
-    |> cast(attrs, [:name, :number, :email_id, :address, :latitude, :longitude, :token, :image_url, :charge, :gst])
-    |> validate_required([:name, :number, :email_id, :address, :latitude, :longitude, :token, :image_url, :charge, :gst])
+    |> cast(attrs, [:name, :number, :email_id, :address, :latitude, :longitude, :token, :image_url, :charge, :gst, :tableCount])
+    |> validate_required([:name, :number, :email_id, :address, :latitude, :longitude, :token, :image_url, :charge, :gst, :tableCount])
   end
 end

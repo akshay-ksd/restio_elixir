@@ -1,7 +1,6 @@
 defmodule PosWeb.UserSocket do
   use Phoenix.Socket
   alias Pos.Staff
-  require Logger
   ## Channels
   channel "menu:*", PosWeb.MenuChannel
   channel "product:*", PosWeb.ProductChannel
@@ -16,6 +15,7 @@ defmodule PosWeb.UserSocket do
   channel "all:*", PosWeb.DownloadData.AllChannel
   channel "deliveryData:*", PosWeb.DownloadData.DeliveryChannel
   channel "kichenData:*", PosWeb.DownloadData.KitchenChannel
+  channel "table:*", PosWeb.TableChannel
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
   # verification, you can put default assigns into
@@ -49,11 +49,11 @@ defmodule PosWeb.UserSocket do
   # def id(_socket), do: nil
 
   def connect(%{"token" => token}, socket) do
-    # {:ok, user} = Staff.get_id_by_token(token)
-    # if user !== false do
-    #    {:ok, assign(socket, :user_id, user.id)}
-    # end
-    {:ok, assign(socket, :user_id, 1)}
+    {:ok, user} = Staff.get_id_by_token(token)
+    if user !== false do
+       {:ok, assign(socket, :user_id, user.id)}
+    end
+    # {:ok, assign(socket, :user_id, 1)}
   end
 
   def id(socket), do: "users_socket:#{socket.assigns.user_id}"
