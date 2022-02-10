@@ -64,8 +64,7 @@ defmodule PosWeb.RestController do
       with {:ok, restaurent} <- Restaurent.getRestaurentDetails(token) do
         if restaurent !== false do
           conn
-          |> json(%{"name" => restaurent.name,
-                    "image_url" => restaurent.image_url,
+          |> json(%{
                     "charge" => restaurent.charge,
                     "gst" => restaurent.gst,
                     "tableCount" => restaurent.tableCount
