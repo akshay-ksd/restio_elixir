@@ -87,13 +87,13 @@ defmodule Pos.OrderMaster do
 
   def getOrderById(restaurentId,orderId) do
     from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and p.order_id == ^orderId,
-    select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time, user_id: p.user_id, gst: p.gst, charge: p.charge})
+    select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time, user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber})
     |> Pos.Repo.all()
   end
 
   def getOrderDataByRestaurentId(restaurentId) do
     from(p in OrderMaster, where: p.restaurent_id == ^restaurentId,
-    select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time, user_id: p.user_id, gst: p.gst, charge: p.charge})
+    select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time, user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber})
     |> Pos.Repo.all()
   end
 
