@@ -21,8 +21,9 @@ defmodule PosWeb.OrderChannel do
     product = order_data["product"]
     charge = order_data["charge"]
     gst = order_data["gst"]
+    tableNumber = order_data["tableNumber"]
 
-    OrderMaster.insertOrderMasterData(date,order_id,restaurent_id,status,otime,user_id,gst,charge)
+    OrderMaster.insertOrderMasterData(date,order_id,restaurent_id,status,otime,user_id,gst,charge,tableNumber)
 
     count = length(product)
     for i <- 0..count-1, i >= 0 do

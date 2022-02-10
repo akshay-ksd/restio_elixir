@@ -14,11 +14,12 @@ defmodule Pos.OrderMaster do
     field :user_id, :string
     field :gst, :integer
     field :charge, :integer
+    field :tableNumber, :integer
 
     timestamps()
   end
 
-  def insertOrderMasterData(date,order_id,restaurent_id,status,otime,user_id,gst,charge) do
+  def insertOrderMasterData(date,order_id,restaurent_id,status,otime,user_id,gst,charge,tableNumber) do
     time = DateTime.utc_now()
 
     %Pos.OrderMaster{
@@ -29,7 +30,8 @@ defmodule Pos.OrderMaster do
       time: otime,
       user_id: user_id,
       gst: gst,
-      charge: charge
+      charge: charge,
+      tableNumber: tableNumber
     }
 
     |> Pos.Repo.insert()
@@ -98,7 +100,7 @@ defmodule Pos.OrderMaster do
   @doc false
   def changeset(order_master, attrs) do
     order_master
-    |> cast(attrs, [:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :charge])
-    |> validate_required([:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :chargez])
+    |> cast(attrs, [:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :charge, :tableNumber])
+    |> validate_required([:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :chargez, :tableNumber])
   end
 end
