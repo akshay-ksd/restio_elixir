@@ -22,7 +22,6 @@ defmodule PosWeb.OrderChannel do
     charge = order_data["charge"]
     gst = order_data["gst"]
     tableNumber = order_data["tableNumber"]
-    Logger.info tableNumber
     OrderMaster.insertOrderMasterData(date,order_id,restaurent_id,status,otime,user_id,gst,charge,tableNumber)
 
     count = length(product)

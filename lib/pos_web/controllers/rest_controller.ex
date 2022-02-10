@@ -65,7 +65,10 @@ defmodule PosWeb.RestController do
         if restaurent !== false do
           conn
           |> json(%{"name" => restaurent.name,
-                    "image_url" => restaurent.image_url
+                    "image_url" => restaurent.image_url,
+                    "charge" => restaurent.charge,
+                    "gst" => restaurent.gst,
+                    "tableCount" => restaurent.tableCount
                   })
         end
       end
