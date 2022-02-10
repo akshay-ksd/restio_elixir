@@ -70,10 +70,11 @@ defmodule PosWeb.OrderChannel do
     product = order_data["product"]
     charge = order_data["charge"]
     gst = order_data["gst"]
+    tableNumber = order_data["tableNumber"]
 
     count = length(product)
 
-    OrderMaster.updateOrderData(order_id, restaurent_id, gst, charge)
+    OrderMaster.updateOrderData(order_id, restaurent_id, gst, charge, tableNumber)
     for i <- 0..count-1, i >= 0 do
       product_data = Enum.at(order_data["product"] |> List.flatten(), i)
 
