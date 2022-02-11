@@ -43,6 +43,7 @@ defmodule PosWeb.AttendenceChannel do
               "staffId" => staffId,
               "date" => date
           }
+          Logger.info("data")
           broadcast!(socket, "add", %{"data" => broadcast_data})
       end
 
