@@ -35,6 +35,7 @@ defmodule PosWeb.AttendenceChannel do
           end
       else
           StaffAttendence.deleteAttendence(attendenceId)
+
           broadcast_data = %{
               "attendence_id" => attendenceId,
               "name" => name,
