@@ -2,6 +2,7 @@ defmodule PosWeb.AttendenceChannel do
   use PosWeb, :channel
   alias Pos.StaffAttendence
   intercept  ["add"]
+  require Logger
 
   def join("attendence:" <> _restaurentid, _params, socket) do
     {:ok, %{"status" => true}, socket}
@@ -20,7 +21,9 @@ defmodule PosWeb.AttendenceChannel do
       restaurentId = attendenceData["restaurentId"]
       staffId = attendenceData["staffId"]
 
-      StaffAttendence.addAttendence(date,name,present,restaurentId,staffId)
+      staff_attendence = StaffAttendence.addAttendence(date,name,present,restaurentId,staffId)
+
+      Logger.info staff_attendence
     end
 
     broadcast!(socket, "add", %{"data" => data})
