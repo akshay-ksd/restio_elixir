@@ -21,7 +21,8 @@ defmodule PosWeb.AttendenceChannel do
       restaurentId = attendenceData["restaurentId"]
       staffId = attendenceData["staffId"]
       with {:ok, staff_attendence} <- StaffAttendence.addAttendence(date,name,present,restaurentId,staffId) do
-        broadcast!(socket, "add", %{"data" => staff_attendence})
+        Logger.info staff_attendence.id
+        broadcast!(socket, "add", %{"data" => data})
       end
     end
     {:noreply, socket}
