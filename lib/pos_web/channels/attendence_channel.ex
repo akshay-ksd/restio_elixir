@@ -20,16 +20,30 @@ defmodule PosWeb.AttendenceChannel do
       present = attendenceData["present"]
       restaurentId = attendenceData["restaurentId"]
       staffId = attendenceData["staffId"]
-      with {:ok, staff_attendence} <- StaffAttendence.addAttendence(date,name,present,restaurentId,staffId) do
-        broadcast_data = %{
-            "attendence_id" => staff_attendence.id,
-            "name" => staff_attendence.name,
-            "present" => staff_attendence.present,
-            "staffId" => staff_attendence.staffId,
-            "date" => staff_attendence.date
-        }
-        broadcast!(socket, "add", %{"data" => broadcast_data})
+      attendenceId = attendenceData["attendenceId"]
+
+      if present == true do
+          with {:ok, staff_attendence} <- StaffAttendence.addAttendence(date,name,present,restaurentId,staffId) do
+              broadcast_data = %{
+                  "attendence_id" => staff_attendence.id,
+                  "name" => staff_attendence.name,
+                  "present" => staff_attendence.present,
+                  "staffId" => staff_attendence.staffId,
+                  "date" => staff_attendence.date
+              }
+              broadcast!(socket, "add", %{"data" => broadcast_data})
+          end
+      else
+          StaffAttendence.deleteAttendence(attendenceId)
+          broadcast_data = %{
+              "attendence_id" => attendenceId,
+              "present" => present,
+              "staffId" => staffId,
+              "date" => date
+          }
+          broadcast!(socket, "add", %{"data" => broadcast_data})
       end
+
     end
     {:noreply, socket}
   end

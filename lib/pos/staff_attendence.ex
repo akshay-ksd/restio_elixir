@@ -22,6 +22,11 @@ defmodule Pos.StaffAttendence do
       |> Pos.Repo.insert()
   end
 
+  def deleteAttendence(attendenceId) do
+    data = Pos.Repo.get_by(StaffAttendence, id: attendenceId)
+    Pos.Repo.delete(data)
+  end
+
   @doc false
   def changeset(staff_attendence, attrs) do
     staff_attendence
