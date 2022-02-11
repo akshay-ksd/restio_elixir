@@ -1,7 +1,7 @@
 defmodule Pos.StaffAttendence do
   use Ecto.Schema
-  import Ecto.Changeset
-  alias StaffAttendence
+  import Ecto.{Query, Changeset}, warn: false
+  alias Pos.StaffAttendence
 
   schema "staff_attendence" do
     field :date, :utc_datetime_usec
@@ -23,8 +23,7 @@ defmodule Pos.StaffAttendence do
   end
 
   def deleteAttendence(attendenceId) do
-    data = Pos.Repo.get_by(StaffAttendence, id: attendenceId)
-    Pos.Repo.delete(data)
+    from(x in StaffAttendence, where: x.id == ^attendenceId) |> Pos.Repo.delete_all
   end
 
   @doc false
