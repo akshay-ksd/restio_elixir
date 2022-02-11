@@ -20,9 +20,9 @@ defmodule PosWeb.AttendenceChannel do
       present = attendenceData["present"]
       restaurentId = attendenceData["restaurentId"]
       staffId = attendenceData["staffId"]
-
-      staff_attendence = StaffAttendence.addAttendence(date,name,present,restaurentId,staffId)
-      broadcast!(socket, "add", %{"data" => staff_attendence})
+      with {:ok, staff_attendence} <- StaffAttendence.addAttendence(date,name,present,restaurentId,staffId) do
+        broadcast!(socket, "add", %{"data" => staff_attendence})
+      end
     end
     {:noreply, socket}
   end
