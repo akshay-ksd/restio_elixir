@@ -22,7 +22,6 @@ defmodule PosWeb.AttendenceChannel do
                       hour: 23, minute: 0, second: 7, microsecond: {444632, 6},
                       utc_offset: 0, std_offset: 0, time_zone: "Etc/UTC"}
 
-      # date = attendenceData["date"]
       name = attendenceData["name"]
       present = attendenceData["present"]
       restaurentId = attendenceData["restaurentId"]
@@ -36,7 +35,7 @@ defmodule PosWeb.AttendenceChannel do
                   "name" => staff_attendence.name,
                   "present" => staff_attendence.present,
                   "staffId" => staff_attendence.staffId,
-                  "date" => staff_attendence.date
+                  "date" => attendenceData["date"]
               }
               broadcast!(socket, "add", %{"data" => broadcast_data})
           end
@@ -48,7 +47,7 @@ defmodule PosWeb.AttendenceChannel do
               "name" => name,
               "present" => present,
               "staffId" => staffId,
-              "date" => date
+              "date" => attendenceData["date"]
           }
           broadcast!(socket, "add", %{"data" => broadcast_data})
       end
