@@ -17,7 +17,7 @@ defmodule PosWeb.AttendenceChannel do
       # date = DateTime.utc_now()
       date = %DateTime{year: 2000, month: 2, day: 29, zone_abbr: "AMT",
                       hour: 23, minute: 0, second: 7, microsecond: {0, 0},
-                      utc_offset: -14400, std_offset: 0, time_zone: "America/Manaus"}
+                      utc_offset: -14400, std_offset: 0, time_zone: "Etc/UTC"}
       Logger.info date
       # date = attendenceData["date"]
       name = attendenceData["name"]
