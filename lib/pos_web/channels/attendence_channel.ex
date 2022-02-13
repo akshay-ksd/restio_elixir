@@ -14,12 +14,12 @@ defmodule PosWeb.AttendenceChannel do
     count = length(staffData)
     for i <- 0..count-1, i >= 0 do
       attendenceData = Enum.at(data["staffData"] |> List.flatten(), i)
-      date = DateTime.utc_now()
-      dt1 = %DateTime{year: 2000, month: 2, day: 29, zone_abbr: "AMT",
-                hour: 23, minute: 0, second: 7, microsecond: {0, 0},
-                utc_offset: -14400, std_offset: 0, time_zone: "America/Manaus"}
-      dt2 = DateTime.convert!(dt1, Calendar.Holocene)
-      Logger.info dt2
+      # date = DateTime.utc_now()
+      date = %DateTime{calendar: Calendar.Holocene, day: 29, hour: 23,
+                      microsecond: {0, 0}, minute: 0, month: 2, second: 7, std_offset: 0,
+                      time_zone: "America/Manaus", utc_offset: -14400, year: 12000,
+                      zone_abbr: "AMT"}
+      Logger.info date
       # date = attendenceData["date"]
       name = attendenceData["name"]
       present = attendenceData["present"]
