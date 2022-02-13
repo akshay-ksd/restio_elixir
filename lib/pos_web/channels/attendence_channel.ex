@@ -15,7 +15,7 @@ defmodule PosWeb.AttendenceChannel do
     for i <- 0..count-1, i >= 0 do
       attendenceData = Enum.at(data["staffData"] |> List.flatten(), i)
 
-      date = DateTime.utc_now()
+      date = attendenceData["date"]
       name = attendenceData["name"]
       present = attendenceData["present"]
       restaurentId = attendenceData["restaurentId"]
@@ -43,7 +43,6 @@ defmodule PosWeb.AttendenceChannel do
               "staffId" => staffId,
               "date" => date
           }
-          Logger.info("data")
           broadcast!(socket, "add", %{"data" => broadcast_data})
       end
 
