@@ -14,8 +14,9 @@ defmodule PosWeb.AttendenceChannel do
     count = length(staffData)
     for i <- 0..count-1, i >= 0 do
       attendenceData = Enum.at(data["staffData"] |> List.flatten(), i)
+      date = DateTime.utc_now(attendenceData["date"])
 
-      date = attendenceData["date"]
+      # date = attendenceData["date"]
       name = attendenceData["name"]
       present = attendenceData["present"]
       restaurentId = attendenceData["restaurentId"]
