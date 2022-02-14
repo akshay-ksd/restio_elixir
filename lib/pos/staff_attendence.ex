@@ -26,6 +26,12 @@ defmodule Pos.StaffAttendence do
     from(x in StaffAttendence, where: x.id == ^attendenceId) |> Pos.Repo.delete_all
   end
 
+  def getAttendenceByRestaurentId(restaurentId) do
+    from(p in StaffAttendence, where: p.restaurentId == ^restaurentId,
+                               select: %{date: p.date,name: p.name,present: p.present,restaurentId: p.restaurentId,staffId: p.staffId})
+    |> Pos.Repo.all()
+  end
+
   @doc false
   def changeset(staff_attendence, attrs) do
     staff_attendence

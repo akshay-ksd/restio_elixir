@@ -11,6 +11,7 @@ defmodule PosWeb.DownloadData.AllChannel  do
   alias Pos.KitchenDetails
   alias Pos.Expence
   alias Pos.Queue
+  alias Pos.StaffAttendence
 
   def join("all:" <> _restaurentid, %{"data" => data}, socket) do
     restaurentId = data["rtoken"]
@@ -133,6 +134,18 @@ defmodule PosWeb.DownloadData.AllChannel  do
                 s_data = %{"data" => false,"section" => section}
                 broadcast!(socket, "getData", %{"data" => s_data})
             end
+        section == "Attendence" ->
+            attendence = StaffAttendence.getAttendenceByRestaurentId(restaurentId)
+            count = Enum.count(attendence)
+
+            if count !== 0 do
+                s_data = %{"data" => attendence,"section" => section}
+                broadcast!(socket, "getData", %{"data" => s_data})
+            else
+                s_data = %{"data" => false,"section" => section}
+                broadcast!(socket, "getData", %{"data" => s_data})
+            end
+
     end
 
     {:noreply, socket}
