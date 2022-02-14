@@ -17,7 +17,7 @@ defmodule PosWeb.AttendenceChannel do
       # date = DateTime.utc_now()
       year = attendenceData["year"]
       month = attendenceData["month"]
-      day = attendenceData["day"]
+      day = attendenceData["day"] - 1
       hour = attendenceData["hour"]
       minute = attendenceData["minute"]
       second = attendenceData["second"]
