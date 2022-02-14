@@ -32,10 +32,6 @@ defmodule Pos.StaffAttendence do
     |> Pos.Repo.all()
   end
 
-  def deleall(restaurentId) do
-    from(x in StaffAttendence, where: x.restaurentId == ^restaurentId) |> Pos.Repo.delete_all
-  end
-
   @doc false
   def changeset(staff_attendence, attrs) do
     staff_attendence
