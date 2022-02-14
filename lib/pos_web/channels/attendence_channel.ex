@@ -18,8 +18,12 @@ defmodule PosWeb.AttendenceChannel do
       year = attendenceData["year"]
       month = attendenceData["month"]
       day = attendenceData["day"]
+      hour = attendenceData["hour"]
+      minute = attendenceData["minute"]
+      second = attendenceData["second"]
+
       date = %DateTime{year: year, month: month, day: day, zone_abbr: "UTC",
-                      hour: 23, minute: 0, second: 7, microsecond: {444632, 6},
+                      hour: hour, minute: minute, second: second, microsecond: {444632, 6},
                       utc_offset: 0, std_offset: 0, time_zone: "Etc/UTC"}
 
       name = attendenceData["name"]
