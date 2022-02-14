@@ -28,7 +28,7 @@ defmodule Pos.StaffAttendence do
 
   def getAttendenceByRestaurentId(restaurentId) do
     from(p in StaffAttendence, where: p.restaurentId == ^restaurentId,
-                               select: %{date: p.date,name: p.name,present: p.present,restaurentId: p.restaurentId,staffId: p.staffId})
+                               select: %{date: p.date,name: p.name,present: p.present,restaurentId: p.restaurentId,staffId: p.staffId,id: p.id})
     |> Pos.Repo.all()
   end
 
