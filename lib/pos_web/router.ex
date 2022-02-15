@@ -17,6 +17,8 @@ defmodule PosWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/terms", TermsAndConditionController, :index
+    get "/privacy", PrivacyPolicyController, :index
   end
 
   scope "/api", PosWeb do

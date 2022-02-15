@@ -22,6 +22,8 @@ defmodule PosWeb.AttendenceChannel do
       minute = attendenceData["minute"]
       second = attendenceData["second"]
 
+      # if day == 0 do day = 1;
+
       date = %DateTime{year: year, month: month, day: day, zone_abbr: "UTC",
                       hour: hour, minute: minute, second: second, microsecond: {444632, 6},
                       utc_offset: 0, std_offset: 0, time_zone: "Etc/UTC"}
