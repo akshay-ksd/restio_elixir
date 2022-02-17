@@ -1,7 +1,6 @@
 defmodule PosWeb.UserSocket do
   use Phoenix.Socket
   alias Pos.Staff
-  transport :websocket, Phoenix.Transports.WebSocket, check_origin: false
   ## Channels
   channel "menu:*", PosWeb.MenuChannel
   channel "product:*", PosWeb.ProductChannel
@@ -50,9 +49,9 @@ defmodule PosWeb.UserSocket do
   # @impl true
   # def id(_socket), do: nil
 
-  def connect(%{"data" => data}, socket) do
-    app = data["app"]
-    token = data["token"]
+  def connect(%{"token" => token}, socket) do
+    # app = data["app"]
+    # token = data["token"]
 
     # if app == "windows" do
     #   {:ok, assign(socket, :user_id, token)}
