@@ -17,7 +17,7 @@ config :pos, PosWeb.Endpoint,
 
   # url: [scheme: "https", host: "prickly-flawed-pronghorn.gigalixirapp.com", port: 443],
 
-  url: [host: "prickly-flawed-pronghorn.gigalixirapp.com", port: 443, scheme: "https"],
+  url: [host: "prickly-flawed-pronghorn.gigalixirapp.com", port: 443, scheme: "wss"],
 
   cache_static_manifest: "priv/static/cache_manifest.json"
 
