@@ -11,11 +11,11 @@ use Mix.Config
 # before starting your production server.
 config :pos, PosWeb.Endpoint,
   load_from_system_env: true,
-  http: [port: {:system, "PORT"}],
+  wss: [port: {:system, "PORT"}],
   server: true,
   secret_key_base: "${SECRET_KEY_BASE}",
 
-  url: [scheme: "https", host: "prickly-flawed-pronghorn.gigalixirapp.com", port: 443],
+  url: [scheme: "wss", host: "prickly-flawed-pronghorn.gigalixirapp.com", port: 443],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
