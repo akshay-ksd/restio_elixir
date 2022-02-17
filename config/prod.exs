@@ -11,7 +11,7 @@ use Mix.Config
 # before starting your production server.
 config :pos, PosWeb.Endpoint,
   load_from_system_env: true,
-  wss: [port: {:system, "PORT"}],
+  http: [port: {:system, "PORT"}],
   server: true,
   secret_key_base: "${SECRET_KEY_BASE}",
 
