@@ -12,7 +12,7 @@ config :pos,
 
 # Configures the endpoint
 config :pos, PosWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: "prickly-flawed-pronghorn.gigalixirapp.com"],
   secret_key_base: "pUSuI3RKtmRWUuau0BVQey7UHvt1l5s7EzK/H0wFJ0B1q2Y1pOnsj+d28A0XQl5z",
   render_errors: [view: PosWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Pos.PubSub,
