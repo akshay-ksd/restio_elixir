@@ -1,6 +1,7 @@
 defmodule PosWeb.UserSocket do
   use Phoenix.Socket
   alias Pos.Staff
+  transport :websocket, Phoenix.Transports.WebSocket, check_origin: false
   ## Channels
   channel "menu:*", PosWeb.MenuChannel
   channel "product:*", PosWeb.ProductChannel
