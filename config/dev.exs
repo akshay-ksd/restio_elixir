@@ -16,7 +16,7 @@ config :pos, Pos.Repo,
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :pos, PosWeb.Endpoint,
-  http: [port: 4000],
+  http: [port: 3000],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
@@ -57,6 +57,7 @@ config :pos, PosWeb.Endpoint,
 # Watch static and templates for browser reloading.
 config :pos, PosWeb.Endpoint,
   live_reload: [
+    url: "ws://localhost:3000",
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
