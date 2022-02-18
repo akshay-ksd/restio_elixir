@@ -17,6 +17,7 @@ defmodule PosWeb.UserSocket do
   channel "kichenData:*", PosWeb.DownloadData.KitchenChannel
   channel "table:*", PosWeb.TableChannel
   channel "attendence:*", PosWeb.AttendenceChannel
+  channel "windows_app:*", PosWeb.WindowAuthChannel
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
   # verification, you can put default assigns into
