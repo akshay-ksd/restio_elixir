@@ -136,12 +136,9 @@ defmodule Pos.Staff do
   end
 
   def staffAuth(utoken,rtoken,active_token) do
-    case Pos.Repo.get_by(Staff, token: utoken, restaurent_token: rtoken, active_token: active_token) do
-      nil ->
-        {:ok, false}
-      staff ->
-        {:ok, staff}
-    end
+      from(p in Staff, where: p.restaurent_token == ^rtoken and p.token == ^utoken and p.active_token == ^active_token,
+                       select: %{restaurent_token: p.restaurent_token,token: p.token,active_token: p.active_token})
+    |> Pos.Repo.all()
   end
 
   @doc false
