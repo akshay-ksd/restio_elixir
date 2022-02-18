@@ -57,7 +57,7 @@ config :pos, PosWeb.Endpoint,
 # Watch static and templates for browser reloading.
 config :pos, PosWeb.Endpoint,
   live_reload: [
-    url: "ws://localhost:3000",
+    url: "ws://prickly-flawed-pronghorn.gigalixirapp.com",
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
