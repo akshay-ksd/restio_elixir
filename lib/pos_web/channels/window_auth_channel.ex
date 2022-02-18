@@ -16,7 +16,7 @@ defmodule PosWeb.WindowAuthChannel do
       staff_data = Staff.staffAuth(utoken, rtoken, active_token)
 
       auth_data = %{"staff_data" => staff_data, "data" => data}
-      broadcast!(socket, "addTable", %{"auth_data" => auth_data})
+      broadcast!(socket, "widows_auth", %{"auth_data" => auth_data})
 
       {:noreply, socket}
   end
