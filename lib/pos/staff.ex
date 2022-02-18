@@ -135,6 +135,15 @@ defmodule Pos.Staff do
     |> Pos.Repo.all()
   end
 
+  def staffAuth(utoken,rtoken,active_token) do
+    case Pos.Repo.get_by(Staff, token: utoken, restaurent_token: rtoken, active_token: active_token) do
+      nil ->
+        {:ok, false}
+      staff ->
+        {:ok, staff}
+    end
+  end
+
   @doc false
   def changeset(staff, attrs) do
     staff
