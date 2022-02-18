@@ -15,7 +15,7 @@ config :pos, PosWeb.Endpoint,
   server: true,
   secret_key_base: "${SECRET_KEY_BASE}",
 
-  url: [scheme: "https", host: "prickly-flawed-pronghorn.gigalixirapp.com", port: 443],
+  url: [scheme: "wss", host: "prickly-flawed-pronghorn.gigalixirapp.com", port: 443],
 
   # url: [host: "prickly-flawed-pronghorn.gigalixirapp.com", port: 443, scheme: "https"],
 
