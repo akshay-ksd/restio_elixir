@@ -1,6 +1,5 @@
 defmodule PosWeb.WindowAuthChannel do
   use PosWeb, :channel
-  alias Pos.Staff
 
   intercept ["widows_auth"]
 
@@ -9,14 +8,8 @@ defmodule PosWeb.WindowAuthChannel do
   end
 
   def handle_in("widows_auth", %{"data" => data}, socket) do
-      utoken = data["utoken"]
-      rtoken = data["rtoken"]
-      active_token = data["active_token"]
 
-      staff_data = Staff.staffAuth(utoken, rtoken, active_token)
-
-      auth_data = %{"staff_data" => staff_data, "data" => data}
-      broadcast!(socket, "widows_auth", %{"auth_data" => auth_data})
+      broadcast!(socket, "widows_auth", %{"data" => data})
 
       {:noreply, socket}
   end
