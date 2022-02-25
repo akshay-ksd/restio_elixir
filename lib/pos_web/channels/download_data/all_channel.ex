@@ -73,10 +73,11 @@ defmodule PosWeb.DownloadData.AllChannel  do
                     order_data = Enum.at(order_master_data, o)
                     data_order = Enum.at(order_data, 3)
                     orderId = elem(data_order, 1)
-                    Logger.info orderId
+                    order_details_data = Order.getOrderDetailsById(restaurentId, orderId)
+
+                    s_data = %{"data" => order_data,"order_details_data" => order_details_data,"section" => section}
+                    broadcast!(socket, "getData", %{"data" => s_data})
                 end
-                s_data = %{"data" => order_master_data,"section" => section}
-                broadcast!(socket, "getData", %{"data" => s_data})
             else
                 s_data = %{"data" => false,"section" => section}
                 broadcast!(socket, "getData", %{"data" => s_data})
