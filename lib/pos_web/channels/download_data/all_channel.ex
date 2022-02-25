@@ -77,6 +77,12 @@ defmodule PosWeb.DownloadData.AllChannel  do
 
                     s_data = %{"data" => order_data,"order_details_data" => order_details_data,"section" => section}
                     broadcast!(socket, "getData", %{"data" => s_data})
+                    Logger.info count
+                    Logger.info o
+                    if count == o do
+                        s_data = %{"data" => false,"section" => section}
+                        broadcast!(socket, "getData", %{"data" => s_data})
+                    end
                 end
             else
                 s_data = %{"data" => false,"section" => section}
