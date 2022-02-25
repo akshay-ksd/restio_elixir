@@ -12,6 +12,7 @@ defmodule PosWeb.DownloadData.AllChannel  do
   alias Pos.Expence
   alias Pos.Queue
   alias Pos.StaffAttendence
+  require Logger
 
   def join("all:" <> _restaurentid, %{"data" => data}, socket) do
     restaurentId = data["rtoken"]
@@ -68,6 +69,12 @@ defmodule PosWeb.DownloadData.AllChannel  do
             count = Enum.count(order_master_data)
 
             if count !== 0 do
+                for o <- 0..count-1, o >= 0  do
+                    order_data = Enum.at(order_master_data, o)
+                    Logger.info order_data
+                    data_order = Enum.at(order_data, 1)
+                    orderId = elem(data_order, 1)
+                end
                 s_data = %{"data" => order_master_data,"section" => section}
                 broadcast!(socket, "getData", %{"data" => s_data})
             else
