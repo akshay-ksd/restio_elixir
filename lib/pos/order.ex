@@ -13,6 +13,8 @@ defmodule Pos.Order do
     field :product_id, :string
     field :quantity, :integer
     field :restaurent_id, :string
+    field :name, :string
+    field :isVeg, :integer
 
     timestamps()
   end
@@ -108,26 +110,26 @@ defmodule Pos.Order do
 
   def getOrderDetailsById(restaurentId, orderId) do
     from(p in Order, where: p.restaurent_id == ^restaurentId and p.order_id == ^orderId,
-    select: %{order_detail_id: p.order_detail_id, order_id: p.order_id, price: p.price, product_id: p.product_id, quantity: p.quantity, restaurent_id: p.restaurent_id})
+    select: %{order_detail_id: p.order_detail_id, order_id: p.order_id, price: p.price, product_id: p.product_id, quantity: p.quantity, restaurent_id: p.restaurent_id, name: p.name, isVeg: p.isVeg})
     |> Pos.Repo.all()
   end
 
   def getOrderDetailsByRestaurentId(restaurentId) do
     from(p in Order, where: p.restaurent_id == ^restaurentId,
-    select: %{order_detail_id: p.order_detail_id, order_id: p.order_id, price: p.price, product_id: p.product_id, quantity: p.quantity, restaurent_id: p.restaurent_id})
+    select: %{order_detail_id: p.order_detail_id, order_id: p.order_id, price: p.price, product_id: p.product_id, quantity: p.quantity, restaurent_id: p.restaurent_id, name: p.name, isVeg: p.isVeg})
     |> Pos.Repo.all()
   end
 
   def getOrderDetailsByDetailId(order_detail_id, restaurentId) do
     from(p in Order, where: p.restaurent_id == ^restaurentId and p.order_detail_id == ^order_detail_id,
-    select: %{order_detail_id: p.order_detail_id, order_id: p.order_id, price: p.price, product_id: p.product_id, quantity: p.quantity, restaurent_id: p.restaurent_id})
+    select: %{order_detail_id: p.order_detail_id, order_id: p.order_id, price: p.price, product_id: p.product_id, quantity: p.quantity, restaurent_id: p.restaurent_id, name: p.name, isVeg: p.isVeg})
     |> Pos.Repo.all()
   end
 
   @doc false
   def changeset(order, attrs) do
     order
-    |> cast(attrs, [:order_detail_id, :order_id, :product_id, :quantity, :price, :restaurent_id])
-    |> validate_required([:order_detail_id, :order_id, :product_id, :quantity, :price, :restaurent_id])
+    |> cast(attrs, [:order_detail_id, :order_id, :product_id, :quantity, :price, :restaurent_id, :name, :isVeg])
+    |> validate_required([:order_detail_id, :order_id, :product_id, :quantity, :price, :restaurent_id, :name, :isVeg])
   end
 end
