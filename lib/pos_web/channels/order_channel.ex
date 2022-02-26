@@ -34,8 +34,10 @@ defmodule PosWeb.OrderChannel do
       product_id = product_data["product_id"]
       quantity = product_data["quantity"]
       restaurent_id = product_data["restaurent_id"]
+      name = product_data["name"]
+      isVeg = product_data["isVeg"]
 
-      Order.insertOrderData(order_detail_id,order_id,price,product_id,quantity,restaurent_id)
+      Order.insertOrderData(order_detail_id, order_id, price, product_id, quantity, restaurent_id, name, isVeg)
     end
 
     broadcast!(socket, "addOrder", %{product: order_data})
