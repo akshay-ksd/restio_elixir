@@ -71,6 +71,7 @@ defmodule PosWeb.DownloadData.AllChannel  do
             if count !== 0 do
                 for o <- 0..count-1, o >= 0  do
                     order_data = Enum.at(order_master_data, o)
+                    Logger.info order_data
                     data_order = Enum.at(order_data, 3)
                     orderId = elem(data_order, 1)
                     order_details_data = Order.getOrderDetailsById(restaurentId, orderId)
