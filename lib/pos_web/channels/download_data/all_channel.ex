@@ -72,17 +72,17 @@ defmodule PosWeb.DownloadData.AllChannel  do
                 for o <- 0..count-1, o >= 0  do
                     order_data = Enum.at(order_master_data, o)
                     Logger.info order_data
-                    data_order = Enum.at(order_data, 3)
-                    orderId = elem(data_order, 1)
-                    order_details_data = Order.getOrderDetailsById(restaurentId, orderId)
+                    # data_order = Enum.at(order_data, 3)
+                    # orderId = elem(data_order, 1)
+                    # order_details_data = Order.getOrderDetailsById(restaurentId, orderId)
 
-                    s_data = %{"data" => order_data,"order_details_data" => order_details_data,"section" => section}
-                    broadcast!(socket, "getData", %{"data" => s_data})
+                    # s_data = %{"data" => order_data,"order_details_data" => order_details_data,"section" => section}
+                    # broadcast!(socket, "getData", %{"data" => s_data})
 
-                    if count-1 == o do
-                        s_data = %{"data" => false,"section" => section}
-                        broadcast!(socket, "getData", %{"data" => s_data})
-                    end
+                    # if count-1 == o do
+                    #     s_data = %{"data" => false,"section" => section}
+                    #     broadcast!(socket, "getData", %{"data" => s_data})
+                    # end
                 end
             else
                 s_data = %{"data" => false,"section" => section}
