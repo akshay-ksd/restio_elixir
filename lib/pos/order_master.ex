@@ -20,10 +20,11 @@ defmodule Pos.OrderMaster do
     timestamps()
   end
 
-  def insertOrderMasterData(order_id,restaurent_id,status,otime,user_id,gst,charge,tableNumber,order_date) do
+  def insertOrderMasterData(date,order_id,restaurent_id,status,otime,user_id,gst,charge,tableNumber,order_date) do
     time = DateTime.utc_now()
 
     %Pos.OrderMaster{
+      date: date,
       order_id: order_id,
       restaurent_id: restaurent_id,
       status: status,

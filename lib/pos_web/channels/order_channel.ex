@@ -12,6 +12,7 @@ defmodule PosWeb.OrderChannel do
 
   def handle_in("addOrder", %{"order_data" => order_data}, socket) do
 
+    date = order_data["date"]
     order_id = order_data["order_id"]
     restaurent_id = order_data["restaurent_id"]
     status = order_data["status"]
@@ -32,7 +33,7 @@ defmodule PosWeb.OrderChannel do
     order_date = %DateTime{year: year, month: month, day: day, zone_abbr: "UTC",
                     hour: hour, minute: minute, second: second, microsecond: {444632, 6},
                     utc_offset: 0, std_offset: 0, time_zone: "Etc/UTC"}
-    OrderMaster.insertOrderMasterData(order_id,restaurent_id,status,otime,user_id,gst,charge,tableNumber,order_date)
+    OrderMaster.insertOrderMasterData(date,order_id,restaurent_id,status,otime,user_id,gst,charge,tableNumber,order_date)
 
     count = length(product)
     for i <- 0..count-1, i >= 0 do
