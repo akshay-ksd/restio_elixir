@@ -35,7 +35,7 @@ defmodule Pos.Order do
 
   end
 
-  def insertSingleOrderData(order_detail_id,order_id,price,product_id,quantity,restaurent_id) do
+  def insertSingleOrderData(order_detail_id,order_id,price,product_id,quantity,restaurent_id,name,isVeg) do
     %Pos.Order{
       order_detail_id: order_detail_id,
       order_id: order_id,
@@ -43,6 +43,8 @@ defmodule Pos.Order do
       product_id: product_id,
       quantity: quantity,
       restaurent_id: restaurent_id,
+      name: name,
+      isVeg: isVeg
     }
 
     |> Pos.Repo.insert()

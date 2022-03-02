@@ -105,6 +105,8 @@ defmodule PosWeb.OrderChannel do
       order_detail_id = product_data["order_detail_id"]
       order_id = product_data["order_id"]
       price = product_data["price"]
+      name = product_data["name"]
+      isVeg = product_data["isVeg"]
       product_id = product_data["product_id"]
       quantity = product_data["quantity"]
       restaurent_id = product_data["restaurent_id"]
@@ -112,7 +114,7 @@ defmodule PosWeb.OrderChannel do
 
       cond do
         task == "INSERT" ->
-         Order.insertSingleOrderData(order_detail_id,order_id,price,product_id,quantity,restaurent_id)
+         Order.insertSingleOrderData(order_detail_id,order_id,price,product_id,quantity,restaurent_id,name,isVeg)
 
         task == "UPDATE" ->
          Order.updateOrderData(order_detail_id, order_id, quantity, restaurent_id)
