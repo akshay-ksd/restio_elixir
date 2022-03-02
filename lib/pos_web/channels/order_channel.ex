@@ -157,8 +157,7 @@ defmodule PosWeb.OrderChannel do
             if ocount !== 0 do
                 for o <- 0..ocount-1, o >= 0  do
                     order_data = Enum.at(order, o)
-                    Logger.info order_data
-                    data_order = Enum.at(order_data, 1)
+                    data_order = Enum.at(order_data, 3)
                     orderId = elem(data_order, 1)
                     order_master = OrderMaster.getOrderById(restaurentId, orderId)
 
