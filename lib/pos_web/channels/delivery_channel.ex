@@ -3,6 +3,7 @@ defmodule PosWeb.DeliveryChannel do
   alias Pos.Delivery
   alias PosWeb.Presence
   alias Pos.Queue
+  alias Pos.Order
   require Logger
 
   intercept ["newOrder","deleteDelivery","updateStatus","checkQueue","deleteQue"]
@@ -25,9 +26,11 @@ defmodule PosWeb.DeliveryChannel do
     status = order["status"]
     gst = order["gst"] / 1
     charge = order["charge"] /1
+    restaurentId = order["restaurent_token"]
+    orderId = order["order_id"]
 
     Delivery.addOrder(address, delivery_id, delivery_time, name, number, order_id, order_time, restaurent_id, staff_id, status, gst, charge)
-    # data = Delivery.getDeliveryDetails(order_id)
+    data = Order.getOrderDetailsById(restaurentId, orderId)
     deliveryData = %{address: address,
                     delivery_id: delivery_id,
                     delivery_time: delivery_time,
@@ -38,7 +41,7 @@ defmodule PosWeb.DeliveryChannel do
                     restaurent_id: restaurent_id,
                     staff_id: staff_id,
                     status: status,
-                    data: "data",
+                    data: data,
                     gst: gst,
                     charge: charge
                     }
