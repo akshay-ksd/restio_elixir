@@ -12,7 +12,6 @@ defmodule PosWeb.DeliveryChannel do
     {:ok, %{"delivery" => true}, socket}
   end
 
-  @spec handle_in(<<_::64, _::_*8>>, map, Phoenix.Socket.t()) :: {:noreply, Phoenix.Socket.t()}
   def handle_in("newOrder", %{"order" => order}, socket) do
     address = order["address"]
     delivery_id = order["delivery_id"]
@@ -26,7 +25,6 @@ defmodule PosWeb.DeliveryChannel do
     status = order["status"]
     gst = order["gst"] / 1
     charge = order["charge"] /1
-    chargse = order["charge"] /1
 
     Delivery.addOrder(address, delivery_id, delivery_time, name, number, order_id, order_time, restaurent_id, staff_id, status, gst, charge)
     data = Delivery.getDeliveryDetails(order_id)
