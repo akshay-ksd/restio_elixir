@@ -27,7 +27,7 @@ defmodule PosWeb.DeliveryChannel do
     charge = order["charge"] /1
 
     Delivery.addOrder(address, delivery_id, delivery_time, name, number, order_id, order_time, restaurent_id, staff_id, status, gst, charge)
-    data = Delivery.getDeliveryDetails(order_id)
+    # data = Delivery.getDeliveryDetails(order_id)
     deliveryData = %{address: address,
                     delivery_id: delivery_id,
                     delivery_time: delivery_time,
@@ -38,7 +38,7 @@ defmodule PosWeb.DeliveryChannel do
                     restaurent_id: restaurent_id,
                     staff_id: staff_id,
                     status: status,
-                    data: data,
+                    data: "data",
                     gst: gst,
                     charge: charge
                     }
