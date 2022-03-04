@@ -4,6 +4,7 @@ defmodule PosWeb.DownloadData.DeliveryChannel do
   alias Pos.Delivery
   alias Pos.Queue
   alias Pos.Order
+  require Logger
 
   def join("deliveryData:" <> _restaurentid, %{"data" => data}, socket) do
     restaurentId = data["rtoken"]
@@ -24,6 +25,7 @@ defmodule PosWeb.DownloadData.DeliveryChannel do
         for i <- 0..count-1, i >= 0 do
 
           order_details = Enum.at(delivery_data, i)
+          Logger.info order_details
           details_order = Enum.at(order_details, 7)
           orderId = elem(details_order, 1)
 
