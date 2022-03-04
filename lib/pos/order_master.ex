@@ -39,7 +39,7 @@ defmodule Pos.OrderMaster do
     |> Pos.Repo.insert()
 
     access1 = "ALL"
-    access2 = "MENU"
+    access2 = "ORDER"
 
     accessid = order_id
     restaurentId = restaurent_id
@@ -63,7 +63,7 @@ defmodule Pos.OrderMaster do
     |> Pos.Repo.update()
 
     access1 = "ALL"
-    access2 = "MENU"
+    access2 = "ORDER"
 
     accessid = order_id
     restaurentId = restaurent_id

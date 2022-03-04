@@ -50,7 +50,7 @@ defmodule Pos.Order do
     |> Pos.Repo.insert()
 
       access1 = "ALL"
-      access2 = "MENU"
+      access2 = "ORDER"
       time = DateTime.utc_now()
 
       accessid = order_detail_id
@@ -73,7 +73,7 @@ defmodule Pos.Order do
     |> Pos.Repo.update()
 
     access1 = "ALL"
-    access2 = "MENU"
+    access2 = "ORDER"
     time = DateTime.utc_now()
 
     accessid = order_detail_id
@@ -95,7 +95,7 @@ defmodule Pos.Order do
     Pos.Repo.delete(data)
 
     access1 = "ALL"
-    access2 = "MENU"
+    access2 = "ORDER"
     time = DateTime.utc_now()
 
     accessid = order_detail_id
