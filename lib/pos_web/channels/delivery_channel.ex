@@ -114,12 +114,12 @@ defmodule PosWeb.DeliveryChannel do
               for d <- 0..dcount-1, d >= 0  do
                 order_data = Enum.at(delivery, d)
                 data_order = Enum.at(order_data, 7)
-                order_id = elem(data_order, 1)
-                productDetails = Delivery.getDeliveryDetails(order_id)
+                orderId = elem(data_order, 1)
+                productDetails = Order.getOrderDetailsById(restaurentId, orderId)
 
                 order_details = %{"delivery" => delivery,
                                   "productDetails" => productDetails,
-                                   "task" => task,
+                                  "task" => task,
                                   "staffId" => staffId}
 
                 broadcast!(socket, "checkQueue", %{"order_details" => order_details})
