@@ -3,6 +3,7 @@ defmodule PosWeb.DownloadData.DeliveryChannel do
   intercept ["getData"]
   alias Pos.Delivery
   alias Pos.Queue
+  alias Pos.Order
 
   def join("deliveryData:" <> _restaurentid, %{"data" => data}, socket) do
     restaurentId = data["rtoken"]
@@ -24,9 +25,9 @@ defmodule PosWeb.DownloadData.DeliveryChannel do
 
           order_details = Enum.at(delivery_data, i)
           details_order = Enum.at(order_details, 7)
-          order_id = elem(details_order, 1)
+          orderId = elem(details_order, 1)
 
-          productDetails = Delivery.getDeliveryDetails(order_id)
+          productDetails = Order.getOrderDetailsById(restaurentId, orderId)
 
           deliveryData = %{ "order_details" => order_details,
                             "productDetails" => productDetails,
