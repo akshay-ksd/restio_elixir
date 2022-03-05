@@ -25,7 +25,7 @@ defmodule PosWeb.OrderChannel do
 
     year = order_data["year"]
     month = order_data["month"]
-    day = order_data["day"] - 1
+    day = order_data["day"]
     hour = order_data["hour"]
     minute = order_data["minute"]
     second = order_data["second"]
