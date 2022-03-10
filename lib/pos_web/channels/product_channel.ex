@@ -1,7 +1,8 @@
 defmodule PosWeb.ProductChannel do
   use PosWeb, :channel
-  intercept ["addProduct","updateProduct","deleteQue","deleteProduct","checkQueue"]
+  intercept ["addProduct","updateProduct","deleteQue","deleteProduct","checkQueue","getProductAndMenu"]
   alias Pos.Product
+  alias Pos.Category
   alias Pos.Queue
   require Logger
 
@@ -84,6 +85,17 @@ defmodule PosWeb.ProductChannel do
     {:noreply, socket}
   end
 
+  def handle_in("getProductAndMenu", %{"data" => data}, socket) do
+    restaurentId = data["restaurentId"]
+    product = Product.getProductByRestaurenId(restaurentId)
+    menu = Category.getCategoryByRestaurentId(restaurentId)
+
+    productMenu = %{"menu" => menu,"product" => product}
+    broadcast!(socket, "getProductAndMenu", %{"productMenu" => productMenu})
+
+    {:noreply, socket}
+  end
+
 
 
 
@@ -112,6 +124,11 @@ defmodule PosWeb.ProductChannel do
 
   def handle_out("checkQueue", payload, socket) do
     push(socket, "checkQueue", payload)
+    {:noreply, socket}
+  end
+
+  def handle_out("getProductAndMenu", payload, socket) do
+    push(socket, "getProductAndMenu", payload)
     {:noreply, socket}
   end
 end
