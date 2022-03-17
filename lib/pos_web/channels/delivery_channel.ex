@@ -25,11 +25,12 @@ defmodule PosWeb.DeliveryChannel do
     staff_id = order["staff_id"]
     status = order["status"]
     gst = order["gst"] / 1
+    s_gst = order["s_gst"] / 1
     charge = order["charge"] /1
     restaurentId = order["restaurent_token"]
     orderId = order["order_id"]
 
-    Delivery.addOrder(address, delivery_id, delivery_time, name, number, order_id, order_time, restaurent_id, staff_id, status, gst, charge)
+    Delivery.addOrder(address, delivery_id, delivery_time, name, number, order_id, order_time, restaurent_id, staff_id, status, gst, charge, s_gst)
     data = Order.getOrderDetailsById(restaurentId, orderId)
     deliveryData = %{address: address,
                     delivery_id: delivery_id,

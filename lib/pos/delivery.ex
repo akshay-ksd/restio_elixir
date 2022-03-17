@@ -21,11 +21,12 @@ defmodule Pos.Delivery do
     field :status, :string
     field :gst, :float
     field :charge, :float
+    field :s_gst, :float
 
     timestamps()
   end
 
-  def addOrder(address,delivery_id,delivery_time,name,number,order_id,order_time,restaurent_id,staff_id,status,gst,charge) do
+  def addOrder(address,delivery_id,delivery_time,name,number,order_id,order_time,restaurent_id,staff_id,status,gst,charge,s_gst) do
     time = DateTime.utc_now()
 
     %Pos.Delivery{
@@ -40,7 +41,8 @@ defmodule Pos.Delivery do
      staff_id: staff_id,
      status: status,
      gst: gst,
-     charge: charge
+     charge: charge,
+     s_gst: s_gst
     }
 
     |> Pos.Repo.insert()
@@ -124,25 +126,25 @@ defmodule Pos.Delivery do
   def getdelivery(restaurentId,deliveryId) do
     from(p in Delivery, where: p.delivery_id == ^deliveryId and p.restaurent_id == ^restaurentId,
                         select: %{address: p.address, delivery_id: p.delivery_id, delivery_time: p.delivery_time, name: p.name, number: p.number, order_id: p.order_id,
-                                  order_time: p.order_time, restaurent_id: p.restaurent_id, staff_id: p.staff_id, status: p.status, gst: p.gst, charge: p.charge}) |> Pos.Repo.all()
+                                  order_time: p.order_time, restaurent_id: p.restaurent_id, staff_id: p.staff_id, status: p.status, gst: p.gst, charge: p.charge, s_gst: p.s_gst}) |> Pos.Repo.all()
   end
 
   def getDeliveryDataByRestaurentId(restaurentId) do
     from(p in Delivery, where: p.restaurent_id == ^restaurentId,
     select: %{address: p.address, delivery_id: p.delivery_id, delivery_time: p.delivery_time, name: p.name, number: p.number, order_id: p.order_id,
-              order_time: p.order_time, restaurent_id: p.restaurent_id, staff_id: p.staff_id, status: p.status, gst: p.gst, charge: p.charge}) |> Pos.Repo.all()
+              order_time: p.order_time, restaurent_id: p.restaurent_id, staff_id: p.staff_id, status: p.status, gst: p.gst, charge: p.charge, s_gst: p.s_gst}) |> Pos.Repo.all()
   end
 
   def getDeliveryDataByStaffId(restaurentId,userId) do
     from(p in Delivery, where: p.restaurent_id == ^restaurentId and p.staff_id == ^userId,
     select: %{address: p.address, delivery_id: p.delivery_id, delivery_time: p.delivery_time, name: p.name, number: p.number, order_id: p.order_id,
-              order_time: p.order_time, restaurent_id: p.restaurent_id, staff_id: p.staff_id, status: p.status, gst: p.gst, charge: p.charge}) |> Pos.Repo.all()
+              order_time: p.order_time, restaurent_id: p.restaurent_id, staff_id: p.staff_id, status: p.status, gst: p.gst, charge: p.charge, s_gst: p.s_gst}) |> Pos.Repo.all()
   end
 
   @doc false
   def changeset(delivery, attrs) do
     delivery
-    |> cast(attrs, [:delivery_id, :order_id, :staff_id, :restaurent_id, :order_time, :delivery_time, :name, :address, :number, :status, :gst, :charge])
-    |> validate_required([:delivery_id, :order_id, :staff_id, :restaurent_id, :order_time, :delivery_time, :name, :address, :number, :status, :gst, :charge])
+    |> cast(attrs, [:delivery_id, :order_id, :staff_id, :restaurent_id, :order_time, :delivery_time, :name, :address, :number, :status, :gst, :charge, :s_gst])
+    |> validate_required([:delivery_id, :order_id, :staff_id, :restaurent_id, :order_time, :delivery_time, :name, :address, :number, :status, :gst, :charge, :s_gst])
   end
 end

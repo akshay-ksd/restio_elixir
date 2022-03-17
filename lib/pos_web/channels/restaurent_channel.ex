@@ -47,8 +47,9 @@ defmodule PosWeb.RestaurentChannel do
     token = data["token"]
     gst = data["gst"]
     charge = data["charge"]
+    s_gst = data["s_gst"]
 
-    Restaurent.updateCharges(charge,gst,token)
+    Restaurent.updateCharges(charge,gst,token,s_gst)
     broadcast!(socket, "updateCharges", %{"data" => data})
     {:noreply, socket}
   end

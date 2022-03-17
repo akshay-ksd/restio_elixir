@@ -21,6 +21,7 @@ defmodule PosWeb.OrderChannel do
     product = order_data["product"]
     charge = order_data["charge"]
     gst = order_data["gst"]
+    s_gst = order_data["s_gst"]
     tableNumber = order_data["tableNumber"]
 
     year = order_data["year"]
@@ -33,7 +34,7 @@ defmodule PosWeb.OrderChannel do
     order_date = %DateTime{year: year, month: month, day: day, zone_abbr: "UTC",
                     hour: hour, minute: minute, second: second, microsecond: {444632, 6},
                     utc_offset: 0, std_offset: 0, time_zone: "Etc/UTC"}
-    OrderMaster.insertOrderMasterData(date,order_id,restaurent_id,status,otime,user_id,gst,charge,tableNumber,order_date)
+    OrderMaster.insertOrderMasterData(date,order_id,restaurent_id,status,otime,user_id,gst,charge,tableNumber,order_date,s_gst)
 
     count = length(product)
     for i <- 0..count-1, i >= 0 do
@@ -83,6 +84,7 @@ defmodule PosWeb.OrderChannel do
     product = order_data["product"]
     charge = order_data["charge"]
     gst = order_data["gst"]
+    s_gst = order_data["s_gst"]
     tableNumber = order_data["tableNumber"]
 
     year = order_data["year"]
@@ -98,7 +100,7 @@ defmodule PosWeb.OrderChannel do
 
     count = length(product)
 
-    OrderMaster.updateOrderData(order_id, restaurent_id, gst, charge, tableNumber, order_date)
+    OrderMaster.updateOrderData(order_id, restaurent_id, gst, charge, tableNumber, order_date, s_gst)
     for i <- 0..count-1, i >= 0 do
       product_data = Enum.at(order_data["product"] |> List.flatten(), i)
 

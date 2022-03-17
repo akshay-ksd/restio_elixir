@@ -15,6 +15,8 @@ defmodule Pos.Restaurent do
     field :charge, :integer
     field :gst, :integer
     field :tableCount, :integer
+    field :s_gst, :float
+
 
     timestamps()
   end
@@ -48,7 +50,7 @@ defmodule Pos.Restaurent do
   def getRestaurentDataByToken(token) do
     from(p in Restaurent, where: p.token == ^token,
     select: %{address: p.address,email_id: p.email_id,image_url: p.image_url,latitude: p.latitude,
-    longitude: p.longitude,name: p.name,number: p.number,token: p.token,charge: p.charge,gst: p.gst})
+    longitude: p.longitude,name: p.name,number: p.number,token: p.token,charge: p.charge,gst: p.gst, s_gst: p.s_gst})
 
     |> Pos.Repo.all()
   end
@@ -59,9 +61,9 @@ defmodule Pos.Restaurent do
     |> Pos.Repo.update()
   end
 
-  def updateCharges(charge,gst,token) do
+  def updateCharges(charge,gst,token,s_gst) do
     Pos.Repo.get_by(Restaurent, token: token)
-    |> Ecto.Changeset.change(%{charge: charge, gst: gst})
+    |> Ecto.Changeset.change(%{charge: charge, gst: gst, s_gst: s_gst})
     |> Pos.Repo.update()
   end
 
@@ -74,7 +76,7 @@ defmodule Pos.Restaurent do
   @doc false
   def changeset(restaurent, attrs) do
     restaurent
-    |> cast(attrs, [:name, :number, :email_id, :address, :latitude, :longitude, :token, :image_url, :charge, :gst, :tableCount])
-    |> validate_required([:name, :number, :email_id, :address, :latitude, :longitude, :token, :image_url, :charge, :gst, :tableCount])
+    |> cast(attrs, [:name, :number, :email_id, :address, :latitude, :longitude, :token, :image_url, :charge, :gst, :tableCount, :s_gst])
+    |> validate_required([:name, :number, :email_id, :address, :latitude, :longitude, :token, :image_url, :charge, :gst, :tableCount, :s_gst])
   end
 end

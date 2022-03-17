@@ -16,11 +16,12 @@ defmodule Pos.OrderMaster do
     field :charge, :integer
     field :tableNumber, :integer
     field :order_date, :utc_datetime_usec
+    field :s_gst, :float
 
     timestamps()
   end
 
-  def insertOrderMasterData(date,order_id,restaurent_id,status,otime,user_id,gst,charge,tableNumber,order_date) do
+  def insertOrderMasterData(date,order_id,restaurent_id,status,otime,user_id,gst,charge,tableNumber,order_date,s_gst) do
     time = DateTime.utc_now()
 
     %Pos.OrderMaster{
@@ -33,7 +34,8 @@ defmodule Pos.OrderMaster do
       gst: gst,
       charge: charge,
       tableNumber: tableNumber,
-      order_date: order_date
+      order_date: order_date,
+      s_gst: s_gst
     }
 
     |> Pos.Repo.insert()
@@ -81,30 +83,30 @@ defmodule Pos.OrderMaster do
     end
   end
 
-  def updateOrderData(order_id,restaurent_id,gst,charge,tableNumber,order_date) do
+  def updateOrderData(order_id,restaurent_id,gst,charge,tableNumber,order_date,s_gst) do
     Pos.Repo.get_by(OrderMaster, order_id: order_id,restaurent_id: restaurent_id)
-    |> Ecto.Changeset.change(%{status: 1,gst: gst,charge: charge,tableNumber: tableNumber,order_date: order_date})
+    |> Ecto.Changeset.change(%{status: 1,gst: gst,charge: charge,tableNumber: tableNumber,order_date: order_date,s_gst: s_gst})
     |> Pos.Repo.update()
   end
 
   def getOrderById(restaurentId,orderId) do
     from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and p.order_id == ^orderId,
     select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time,
-              user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber, order_date: p.order_date})
+              user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber, order_date: p.order_date, s_gst: p.s_gst})
     |> Pos.Repo.all()
   end
 
   def getOrderDataByRestaurentId(restaurentId) do
     from(p in OrderMaster, where: p.restaurent_id == ^restaurentId,
     select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time,
-              user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber, order_date: p.order_date})
+              user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber, order_date: p.order_date, s_gst: p.s_gst})
     |> Pos.Repo.all()
   end
 
   @doc false
   def changeset(order_master, attrs) do
     order_master
-    |> cast(attrs, [:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :charge, :tableNumber, :order_date])
-    |> validate_required([:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :chargez, :tableNumber, :order_date])
+    |> cast(attrs, [:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :charge, :tableNumber, :order_date, :s_gst])
+    |> validate_required([:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :chargez, :tableNumber, :order_date, :s_gst])
   end
 end
