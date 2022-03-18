@@ -68,6 +68,7 @@ defmodule PosWeb.RestController do
                     "name" => restaurent.name,
                     "charge" => restaurent.charge,
                     "gst" => restaurent.gst,
+                    "sgst" => restaurent.s_gst,
                     "tableCount" => restaurent.tableCount
                   })
         end
