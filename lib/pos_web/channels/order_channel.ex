@@ -127,7 +127,7 @@ defmodule PosWeb.OrderChannel do
     end
 
     broadcast!(socket, "updateOrder", %{product: order_data})
-    {:noreply, socket}
+    {:reply, :ok, socket}
   end
 
   def handle_in("checkQueue", %{"data" => data}, socket) do
