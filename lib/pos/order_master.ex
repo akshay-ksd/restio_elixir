@@ -36,8 +36,8 @@ defmodule Pos.OrderMaster do
       charge: charge,
       tableNumber: tableNumber,
       order_date: order_date,
-      s_gst: 0,
-      c_gst: 0
+      s_gst: gst/1,
+      c_gst: gst/1
     }
 
     |> Pos.Repo.insert()
