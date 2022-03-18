@@ -35,9 +35,7 @@ defmodule Pos.OrderMaster do
       gst: gst,
       charge: charge,
       tableNumber: tableNumber,
-      order_date: order_date,
-      s_gst: gst/1,
-      c_gst: gst/1
+      order_date: order_date
     }
 
     |> Pos.Repo.insert()
@@ -87,7 +85,7 @@ defmodule Pos.OrderMaster do
 
   def updateOrderData(order_id,restaurent_id,gst,charge,tableNumber,order_date,s_gst) do
     Pos.Repo.get_by(OrderMaster, order_id: order_id,restaurent_id: restaurent_id)
-    |> Ecto.Changeset.change(%{status: 1,gst: gst,charge: charge,tableNumber: tableNumber,order_date: order_date,s_gst: s_gst,c_gst: gst})
+    |> Ecto.Changeset.change(%{status: 1,gst: gst,charge: charge,tableNumber: tableNumber,order_date: order_date})
     |> Pos.Repo.update()
   end
 
