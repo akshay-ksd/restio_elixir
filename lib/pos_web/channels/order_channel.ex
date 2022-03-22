@@ -183,6 +183,16 @@ defmodule PosWeb.OrderChannel do
     {:noreply, socket}
   end
 
+  def handle_in("getOrder", %{"data" => data}, socket) do
+    offset = data["offset"]
+    limit = data["limit"]
+    restaurentId = data["restaurentId"]
+
+    order_master = OrderMaster.getOrderByPagination(restaurentId,limit,offset)
+    Logger.info order_master
+    {:reply, socket}
+  end
+
   def handle_out("addOrder", payload, socket) do
     push(socket, "addOrder", payload)
     {:noreply, socket}
