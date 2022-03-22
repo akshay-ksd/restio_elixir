@@ -188,9 +188,30 @@ defmodule PosWeb.OrderChannel do
     limit = data["limit"]
     restaurentId = data["restaurentId"]
 
-    order_master = OrderMaster.getOrderByPagination(restaurentId,limit,offset)
-    Logger.info order_master
-    {:reply, socket}
+    order_master_data = OrderMaster.getOrderByPagination(restaurentId,limit,offset)
+
+    count = Enum.count(order_master_data)
+
+            if count !== 0 do
+                for o <- 0..count-1, o >= 0  do
+                    order_data = Enum.at(order_master_data, o)
+                    data_order = Enum.at(order_data, 5)
+                    orderId = elem(data_order, 1)
+                    order_details_data = Order.getOrderDetailsById(restaurentId, orderId)
+
+                    s_data = %{"data" => order_data,"order_details_data" => order_details_data}
+                    broadcast!(socket, "getData", %{"data" => s_data})
+
+                    if count-1 == o do
+                        s_data = %{"data" => false}
+                        broadcast!(socket, "getData", %{"data" => s_data})
+                        {:reply, {:ok, s_data}, socket}
+                    end
+                end
+            else
+                s_data = %{"data" => false}
+                broadcast!(socket, "getData", %{"data" => s_data})
+            end
   end
 
   def handle_out("addOrder", payload, socket) do
