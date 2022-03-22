@@ -104,7 +104,7 @@ defmodule Pos.OrderMaster do
   end
 
   def getOrderByPagination(restaurentId,limit,offset) do
-    from(p in OrderMaster, where: p.restaurent_id == ^restaurentId, limit: ^limit, offset: ^offset,
+    from(p in OrderMaster, where: p.restaurent_id == ^restaurentId, limit: ^limit, offset: ^offset,order_by: fragment("? DESC", p.inserted_at),
     select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time,
               user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber, order_date: p.order_date, s_gst: p.s_gst, id: p.id})
     |> Pos.Repo.all()
