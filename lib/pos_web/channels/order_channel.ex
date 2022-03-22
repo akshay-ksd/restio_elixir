@@ -1,6 +1,6 @@
 defmodule PosWeb.OrderChannel do
   use PosWeb, :channel
-  intercept ["addOrder"]
+  intercept ["addOrder","getOrder"]
   alias Pos.OrderMaster
   alias Pos.Order
   alias Pos.Queue
@@ -200,17 +200,13 @@ defmodule PosWeb.OrderChannel do
                     order_details_data = Order.getOrderDetailsById(restaurentId, orderId)
 
                     s_data = %{"data" => order_data,"order_details_data" => order_details_data}
-                    broadcast!(socket, "getData", %{"data" => s_data})
-
-                    if count-1 == o do
-                        s_data = %{"data" => false}
-                        broadcast!(socket, "getData", %{"data" => s_data})
-                        {:reply, {:ok, s_data}, socket}
-                    end
+                    broadcast!(socket, "getOrder", %{"data" => s_data})
+                    {:noreply, socket}
                 end
             else
                 s_data = %{"data" => false}
-                broadcast!(socket, "getData", %{"data" => s_data})
+                broadcast!(socket, "getOrder", %{"data" => s_data})
+                {:noreply, socket}
             end
   end
 
@@ -231,6 +227,11 @@ defmodule PosWeb.OrderChannel do
 
   def handle_out("updateOrder", payload, socket) do
     push(socket, "checkQueue", payload)
+    {:noreply, socket}
+  end
+
+  def handle_out("getOrder", payload, socket) do
+    push(socket, "getOrder", payload)
     {:noreply, socket}
   end
 end
