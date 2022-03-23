@@ -201,6 +201,11 @@ defmodule PosWeb.OrderChannel do
 
                     s_data = %{"data" => order_data,"order_details_data" => order_details_data}
                     broadcast!(socket, "getOrder", %{"data" => s_data})
+
+                    if count-1 == o do
+                      s_data = %{"data" => false}
+                      broadcast!(socket, "getOrder", %{"data" => s_data})
+                    end
                 end
             else
                 s_data = %{"data" => false}
