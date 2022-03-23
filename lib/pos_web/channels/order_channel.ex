@@ -199,16 +199,16 @@ defmodule PosWeb.OrderChannel do
                     orderId = elem(data_order, 1)
                     order_details_data = Order.getOrderDetailsById(restaurentId, orderId)
 
-                    s_data = %{"data" => order_data,"order_details_data" => order_details_data}
+                    s_data = %{"data" => order_data,"order_details_data" => order_details_data,"empty" => false}
                     broadcast!(socket, "getOrder", %{"data" => s_data})
 
                     if count-1 == o do
-                      s_data = %{"data" => false}
+                      s_data = %{"data" => false,"empty" => true}
                       broadcast!(socket, "getOrder", %{"data" => s_data})
                     end
                 end
             else
-                s_data = %{"data" => false}
+                s_data = %{"data" => false,"empty" => false}
                 broadcast!(socket, "getOrder", %{"data" => s_data})
             end
     {:noreply, socket}
