@@ -187,8 +187,10 @@ defmodule PosWeb.OrderChannel do
     offset = data["offset"]
     limit = data["limit"]
     restaurentId = data["restaurentId"]
+    filterType = data["filterType"]
+    date = data["date"]
 
-    order_master_data = OrderMaster.getOrderByPagination(restaurentId,limit,offset)
+    order_master_data = OrderMaster.getOrderByPagination(restaurentId,limit,offset,filterType,date)
 
     count = Enum.count(order_master_data)
 
