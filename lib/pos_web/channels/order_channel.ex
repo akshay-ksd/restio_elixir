@@ -202,7 +202,7 @@ defmodule PosWeb.OrderChannel do
                        hour: hour, minute: minute, second: second, microsecond: {444632, 6},
                        utc_offset: 0, std_offset: 0, time_zone: "Etc/UTC"}
     end
-
+    Logger.info("date",date)
     order_master_data = OrderMaster.getOrderByPagination(restaurentId,limit,offset,filterType,date)
 
     count = Enum.count(order_master_data)
