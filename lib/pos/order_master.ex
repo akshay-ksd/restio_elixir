@@ -106,10 +106,20 @@ defmodule Pos.OrderMaster do
   def getOrderByPagination(restaurentId,limit,offset,filterType,date) do
     cond do
       filterType == 0 ->
-        from(p in OrderMaster, where: p.restaurent_id == ^restaurentId,order_by: fragment("? DESC", p.inserted_at), limit: ^limit, offset: ^offset,
-        select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time,
-                  user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber, order_date: p.order_date, s_gst: p.s_gst, id: p.id})
-        |> Pos.Repo.all()
+        if date == false do
+          from(p in OrderMaster, where: p.restaurent_id == ^restaurentId,order_by: fragment("? DESC", p.inserted_at), limit: ^limit, offset: ^offset,
+          select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time,
+                    user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber, order_date: p.order_date, s_gst: p.s_gst, id: p.id})
+          |> Pos.Repo.all()
+
+        else
+          from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and p.inserted_at >= ^date,
+          limit: ^limit, offset: ^offset,
+          select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time,
+                    user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber, order_date: p.order_date, s_gst: p.s_gst, id: p.id})
+          |> Pos.Repo.all()
+        end
+
 
 
       filterType == 1 ->
