@@ -4,6 +4,7 @@ defmodule Pos.OrderMaster do
   alias Pos.OrderMaster
   alias Pos.Queue
   alias Pos.Staff
+  alias Logger
 
   schema "order_master" do
     field :date, :string
@@ -104,7 +105,6 @@ defmodule Pos.OrderMaster do
   end
 
   def getOrderByPagination(restaurentId,limit,offset,filterType,date) do
-    dates = ~D[2022-03-23]
     cond do
       filterType == 0 ->
         if date == false do
@@ -113,7 +113,7 @@ defmodule Pos.OrderMaster do
                     user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber, order_date: p.order_date, s_gst: p.s_gst, id: p.id})
           |> Pos.Repo.all()
         else
-          from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and fragment("?::date", p.inserted_at) >= ^dates,
+          from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and p.status == 4,
           order_by: fragment("? DESC", p.inserted_at), limit: ^limit, offset: ^offset,
           select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time,
                     user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber, order_date: p.order_date, s_gst: p.s_gst, id: p.id})
