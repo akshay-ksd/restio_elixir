@@ -190,19 +190,7 @@ defmodule PosWeb.OrderChannel do
     filterType = data["filterType"]
 
     date = data["date"]
-    year = data["year"]
-    month = data["month"]
-    day = data["day"]
-    hour = data["hour"]
-    minute = data["minute"]
-    second = data["second"]
 
-    if date !== false do
-      date = %DateTime{year: year, month: month, day: day, zone_abbr: "UTC",
-                       hour: hour, minute: minute, second: second, microsecond: {444632, 6},
-                       utc_offset: 0, std_offset: 0, time_zone: "Etc/UTC"}
-    end
-    Logger.info("date",date)
     order_master_data = OrderMaster.getOrderByPagination(restaurentId,limit,offset,filterType,date)
 
     count = Enum.count(order_master_data)
