@@ -189,6 +189,7 @@ defmodule PosWeb.OrderChannel do
     restaurentId = data["restaurentId"]
     filterType = data["filterType"]
 
+    date = data["date"]
     year = data["year"]
     month = data["month"]
     day = data["day"]
@@ -196,10 +197,11 @@ defmodule PosWeb.OrderChannel do
     minute = data["minute"]
     second = data["second"]
 
-    date = %DateTime{year: year, month: month, day: day, zone_abbr: "UTC",
-                    hour: hour, minute: minute, second: second, microsecond: {444632, 6},
-                    utc_offset: 0, std_offset: 0, time_zone: "Etc/UTC"}
-
+    if date !== false do
+      date = %DateTime{year: year, month: month, day: day, zone_abbr: "UTC",
+                       hour: hour, minute: minute, second: second, microsecond: {444632, 6},
+                       utc_offset: 0, std_offset: 0, time_zone: "Etc/UTC"}
+    end
 
     order_master_data = OrderMaster.getOrderByPagination(restaurentId,limit,offset,filterType,date)
 
