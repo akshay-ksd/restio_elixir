@@ -51,7 +51,7 @@ defmodule PosWeb.OrderChannel do
 
       Order.insertOrderData(order_detail_id, order_id, price, product_id, quantity, restaurent_id, name, isVeg)
     end
-    o_datas = %{"id" => order_datas["id"],"order_data" => order_data}
+    o_datas = %{"id" => order_datas.id,"order_data" => order_data}
     broadcast!(socket, "addOrder", %{product: o_datas})
     {:reply, :ok, socket}
   end
