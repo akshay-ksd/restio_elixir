@@ -35,8 +35,7 @@ defmodule PosWeb.OrderChannel do
                            hour: hour, minute: minute, second: second, microsecond: {444632, 6},
                            utc_offset: 0, std_offset: 0, time_zone: "Etc/UTC"}
     order_datas = OrderMaster.insertOrderMasterData(date,order_id,restaurent_id,status,otime,user_id,gst,charge,tableNumber,order_date,s_gst)
-    Logger.info order_datas
-    Logger.info order_datas
+
     count = length(product)
     for i <- 0..count-1, i >= 0 do
       product_data = Enum.at(order_data["product"] |> List.flatten(), i)
@@ -52,8 +51,8 @@ defmodule PosWeb.OrderChannel do
 
       Order.insertOrderData(order_detail_id, order_id, price, product_id, quantity, restaurent_id, name, isVeg)
     end
-
-    broadcast!(socket, "addOrder", %{product: order_data})
+    o_datas = %{"order_datas" => order_datas,"order_data" => order_data}
+    broadcast!(socket, "addOrder", %{product: o_datas})
     {:reply, :ok, socket}
   end
 
