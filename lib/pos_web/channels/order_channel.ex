@@ -34,7 +34,7 @@ defmodule PosWeb.OrderChannel do
     order_date = %DateTime{year: year, month: month, day: day, zone_abbr: "UTC",
                            hour: hour, minute: minute, second: second, microsecond: {444632, 6},
                            utc_offset: 0, std_offset: 0, time_zone: "Etc/UTC"}
-    order_datas = OrderMaster.insertOrderMasterData(date,order_id,restaurent_id,status,otime,user_id,gst,charge,tableNumber,order_date,s_gst)
+    OrderMaster.insertOrderMasterData(date,order_id,restaurent_id,status,otime,user_id,gst,charge,tableNumber,order_date,s_gst)
 
     count = length(product)
     for i <- 0..count-1, i >= 0 do
@@ -51,8 +51,7 @@ defmodule PosWeb.OrderChannel do
 
       Order.insertOrderData(order_detail_id, order_id, price, product_id, quantity, restaurent_id, name, isVeg)
     end
-    o_datas = %{"id" => order_datas.id,"order_data" => order_data}
-    broadcast!(socket, "addOrder", %{product: o_datas})
+    broadcast!(socket, "addOrder", %{product: order_data})
     {:reply, :ok, socket}
   end
 
