@@ -32,8 +32,9 @@ defmodule PosWeb.OrderChannel do
     second = order_data["second"]
 
     order_date = %DateTime{year: year, month: month, day: day, zone_abbr: "UTC",
-                    hour: hour, minute: minute, second: second, microsecond: {444632, 6},
-                    utc_offset: 0, std_offset: 0, time_zone: "Etc/UTC"}
+                           hour: hour, minute: minute, second: second, microsecond: {444632, 6},
+                           utc_offset: 0, std_offset: 0, time_zone: "Etc/UTC"}
+    Logger.info order_date
     OrderMaster.insertOrderMasterData(date,order_id,restaurent_id,status,otime,user_id,gst,charge,tableNumber,order_date,s_gst)
 
     count = length(product)
