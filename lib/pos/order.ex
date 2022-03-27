@@ -15,11 +15,12 @@ defmodule Pos.Order do
     field :restaurent_id, :string
     field :name, :string
     field :isVeg, :integer
+    field :category_id, :string
 
     timestamps()
   end
 
-  def insertOrderData(order_detail_id,order_id,price,product_id,quantity,restaurent_id,name,isVeg) do
+  def insertOrderData(order_detail_id,order_id,price,product_id,quantity,restaurent_id,name,isVeg,category_id) do
     %Pos.Order{
       order_detail_id: order_detail_id,
       order_id: order_id,
@@ -28,7 +29,8 @@ defmodule Pos.Order do
       quantity: quantity,
       restaurent_id: restaurent_id,
       name: name,
-      isVeg: isVeg
+      isVeg: isVeg,
+      category_id: category_id
     }
 
     |> Pos.Repo.insert()
@@ -134,7 +136,7 @@ defmodule Pos.Order do
   @doc false
   def changeset(order, attrs) do
     order
-    |> cast(attrs, [:order_detail_id, :order_id, :product_id, :quantity, :price, :restaurent_id, :name, :isVeg])
-    |> validate_required([:order_detail_id, :order_id, :product_id, :quantity, :price, :restaurent_id, :name, :isVeg])
+    |> cast(attrs, [:order_detail_id, :order_id, :product_id, :quantity, :price, :restaurent_id, :name, :isVeg, :category_id])
+    |> validate_required([:order_detail_id, :order_id, :product_id, :quantity, :price, :restaurent_id, :name, :isVeg, :category_id])
   end
 end
