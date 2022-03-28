@@ -37,7 +37,7 @@ defmodule Pos.Order do
 
   end
 
-  def insertSingleOrderData(order_detail_id,order_id,price,product_id,quantity,restaurent_id,name,isVeg) do
+  def insertSingleOrderData(order_detail_id,order_id,price,product_id,quantity,restaurent_id,name,isVeg,category_id) do
     %Pos.Order{
       order_detail_id: order_detail_id,
       order_id: order_id,
@@ -46,27 +46,28 @@ defmodule Pos.Order do
       quantity: quantity,
       restaurent_id: restaurent_id,
       name: name,
-      isVeg: isVeg
+      isVeg: isVeg,
+      category_id: category_id
     }
 
     |> Pos.Repo.insert()
 
-      access1 = "ALL"
-      access2 = "ORDER"
-      time = DateTime.utc_now()
+      # access1 = "ALL"
+      # access2 = "ORDER"
+      # time = DateTime.utc_now()
 
-      accessid = order_detail_id
-      restaurentId = restaurent_id
-      section = "Order"
-      task = "PRODUCT_ADD"
+      # accessid = order_detail_id
+      # restaurentId = restaurent_id
+      # section = "Order"
+      # task = "PRODUCT_ADD"
 
-      staffData = Staff.getTokenByAccess(restaurent_id, access1, access2)
-      count = Enum.count(staffData)
+      # staffData = Staff.getTokenByAccess(restaurent_id, access1, access2)
+      # count = Enum.count(staffData)
 
-      for i <- 0..count-1, i >= 0 do
-        staffId = Enum.at(staffData, i)
-        Queue.addQueueData(accessid, restaurentId, section, staffId, task, time)
-      end
+      # for i <- 0..count-1, i >= 0 do
+      #   staffId = Enum.at(staffData, i)
+      #   Queue.addQueueData(accessid, restaurentId, section, staffId, task, time)
+      # end
   end
 
   def updateOrderData(order_detail_id,order_id,quantity,restaurent_id) do
