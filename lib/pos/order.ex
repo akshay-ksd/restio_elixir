@@ -117,7 +117,7 @@ defmodule Pos.Order do
   def getOrderDetailsById(restaurentId, orderId) do
     from(p in Order, where: p.restaurent_id == ^restaurentId and p.order_id == ^orderId,
     select: %{order_detail_id: p.order_detail_id, order_id: p.order_id, price: p.price, product_id: p.product_id, quantity: p.quantity,
-              restaurent_id: p.restaurent_id, name: p.name, isVeg: p.isVeg, total: p.quantity * p.price})
+              restaurent_id: p.restaurent_id, name: p.name, isVeg: p.isVeg, total: p.quantity * p.price, category_id: p.category_id})
     |> Pos.Repo.all()
   end
 
