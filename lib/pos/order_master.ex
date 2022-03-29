@@ -60,7 +60,7 @@ defmodule Pos.OrderMaster do
   def updateOrderStatus(order_id,status,restaurent_id) do
     time = DateTime.utc_now()
 
-    Pos.Repo.get_by(OrderMaster, order_id: order_id)
+    Pos.Repo.get_by(OrderMaster, id: order_id)
     |> Ecto.Changeset.change(%{status: status})
     |> Pos.Repo.update()
 
