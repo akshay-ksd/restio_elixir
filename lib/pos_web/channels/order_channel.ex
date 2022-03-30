@@ -84,23 +84,11 @@ defmodule PosWeb.OrderChannel do
     product = order_data["product"]
     charge = order_data["charge"]
     gst = order_data["gst"]
-    s_gst = order_data["s_gst"]
     tableNumber = order_data["tableNumber"]
-
-    year = order_data["year"]
-    month = order_data["month"]
-    day = order_data["day"] - 1
-    hour = order_data["hour"]
-    minute = order_data["minute"]
-    second = order_data["second"]
-
-    order_date = %DateTime{year: year, month: month, day: day, zone_abbr: "UTC",
-                    hour: hour, minute: minute, second: second, microsecond: {444632, 6},
-                    utc_offset: 0, std_offset: 0, time_zone: "Etc/UTC"}
 
     count = length(product)
 
-    OrderMaster.updateOrderData(order_id, restaurent_id, gst, charge, tableNumber, order_date, s_gst)
+    OrderMaster.updateOrderData(order_id, restaurent_id, gst, charge, tableNumber)
     for i <- 0..count-1, i >= 0 do
       product_data = Enum.at(order_data["product"] |> List.flatten(), i)
 
