@@ -75,44 +75,44 @@ defmodule Pos.Order do
     |> Ecto.Changeset.change(%{quantity: quantity})
     |> Pos.Repo.update()
 
-    access1 = "ALL"
-    access2 = "ORDER"
-    time = DateTime.utc_now()
+    # access1 = "ALL"
+    # access2 = "ORDER"
+    # time = DateTime.utc_now()
 
-    accessid = order_detail_id
-    restaurentId = restaurent_id
-    section = "Order"
-    task = "PRODUCT_UPDATE"
+    # accessid = order_detail_id
+    # restaurentId = restaurent_id
+    # section = "Order"
+    # task = "PRODUCT_UPDATE"
 
-    staffData = Staff.getTokenByAccess(restaurent_id, access1, access2)
-    count = Enum.count(staffData)
+    # staffData = Staff.getTokenByAccess(restaurent_id, access1, access2)
+    # count = Enum.count(staffData)
 
-    for i <- 0..count-1, i >= 0 do
-      staffId = Enum.at(staffData, i)
-      Queue.addQueueData(accessid, restaurentId, section, staffId, task, time)
-    end
+    # for i <- 0..count-1, i >= 0 do
+    #   staffId = Enum.at(staffData, i)
+    #   Queue.addQueueData(accessid, restaurentId, section, staffId, task, time)
+    # end
   end
 
   def deleteOrderData(order_detail_id,order_id,restaurent_id) do
     data = Pos.Repo.get_by(Order, restaurent_id: restaurent_id,order_detail_id: order_detail_id,order_id: order_id)
     Pos.Repo.delete(data)
 
-    access1 = "ALL"
-    access2 = "ORDER"
-    time = DateTime.utc_now()
+    # access1 = "ALL"
+    # access2 = "ORDER"
+    # time = DateTime.utc_now()
 
-    accessid = order_detail_id
-    restaurentId = restaurent_id
-    section = "Order"
-    task = "PRODUCT_DELETE"
+    # accessid = order_detail_id
+    # restaurentId = restaurent_id
+    # section = "Order"
+    # task = "PRODUCT_DELETE"
 
-    staffData = Staff.getTokenByAccess(restaurent_id, access1, access2)
-    count = Enum.count(staffData)
+    # staffData = Staff.getTokenByAccess(restaurent_id, access1, access2)
+    # count = Enum.count(staffData)
 
-    for i <- 0..count-1, i >= 0 do
-      staffId = Enum.at(staffData, i)
-      Queue.addQueueData(accessid, restaurentId, section, staffId, task, time)
-    end
+    # for i <- 0..count-1, i >= 0 do
+    #   staffId = Enum.at(staffData, i)
+    #   Queue.addQueueData(accessid, restaurentId, section, staffId, task, time)
+    # end
   end
 
   def getOrderDetailsById(restaurentId, orderId) do
