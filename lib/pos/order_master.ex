@@ -174,8 +174,7 @@ defmodule Pos.OrderMaster do
   end
 
   def getOrderByDate(restaurentId,dateStart,dateEnd) do
-    date = ~D[2022-04-02]
-    from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and fragment("?::date", p.inserted_at) >= ^date and p.status >0 and p.status < 4,
+    from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and fragment("?::date", p.inserted_at) >= ^dateStart and p.status >0 and p.status < 4,
     select: %{total: p.total, date: p.date, gst: p.gst, charge: p.charge, order_date: p.order_date, id: p.id})
     |> Pos.Repo.all()
   end
