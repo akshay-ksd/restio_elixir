@@ -2,6 +2,7 @@ defmodule PosWeb.ExpenceChannel do
   use PosWeb, :channel
   alias Pos.Expence
   alias Pos.Queue
+  alias Pos.OrderMaster
 
   intercept ["addExpence","updateExpence","deleteExpence","checkQueue"]
 
@@ -102,6 +103,14 @@ defmodule PosWeb.ExpenceChannel do
 
     Queue.deleteQue(restaurentId, staffId, accessid, task)
     {:noreply, socket}
+  end
+
+  def handle_in("get_report", %{"data" => data}, socket) do
+    restaurentId = data["rToken"]
+    dateStart = data["dateStart"]
+    dateEnd = data["dateEnd"]
+
+    orderData = OrderMaster.getOrderByDate(restaurentId,dateStart,dateEnd)
   end
 
   def handle_out("addExpence", payload, socket) do
