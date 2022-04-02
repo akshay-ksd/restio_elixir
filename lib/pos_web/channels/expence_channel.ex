@@ -4,7 +4,7 @@ defmodule PosWeb.ExpenceChannel do
   alias Pos.Queue
   alias Pos.OrderMaster
 
-  intercept ["addExpence","updateExpence","deleteExpence","checkQueue"]
+  intercept ["addExpence","updateExpence","deleteExpence","checkQueue","get_report"]
 
   def join("expence:" <> _restaurentid, _params, socket) do
     {:ok, %{"status" => true}, socket}
@@ -111,6 +111,8 @@ defmodule PosWeb.ExpenceChannel do
     dateEnd = data["dateEnd"]
 
     orderData = OrderMaster.getOrderByDate(restaurentId,dateStart,dateEnd)
+    broadcast!(socket, "get_report", %{orderData: orderData})
+    {:noreply, socket}
   end
 
   def handle_out("addExpence", payload, socket) do
@@ -130,6 +132,11 @@ defmodule PosWeb.ExpenceChannel do
 
   def handle_out("checkQueue", payload, socket) do
     push(socket, "checkQueue", payload)
+    {:noreply, socket}
+  end
+
+  def handle_out("get_report", payload, socket) do
+    push(socket, "get_report", payload)
     {:noreply, socket}
   end
 end
