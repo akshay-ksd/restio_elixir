@@ -22,7 +22,7 @@ defmodule PosWeb.OrderChannel do
     charge = order_data["charge"]
     gst = order_data["gst"]
     tableNumber = order_data["tableNumber"]
-    total = order_data["total"]
+    total = order_data["total"]/1
 
     year = order_data["year"]
     month = order_data["month"]
@@ -85,7 +85,7 @@ defmodule PosWeb.OrderChannel do
     charge = order_data["charge"]
     gst = order_data["gst"]
     tableNumber = order_data["tableNumber"]
-    total = order_data["total"]
+    total = order_data["total"]/1
 
     count = length(product)
 
