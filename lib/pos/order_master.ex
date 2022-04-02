@@ -18,11 +18,12 @@ defmodule Pos.OrderMaster do
     field :order_date, :utc_datetime_usec
     field :s_gst, :float
     field :c_gst, :float
+    field :total, :float
 
     timestamps()
   end
 
-  def insertOrderMasterData(date,order_id,restaurent_id,status,otime,user_id,gst,charge,tableNumber,order_date,s_gst) do
+  def insertOrderMasterData(date,order_id,restaurent_id,status,otime,user_id,gst,charge,tableNumber,order_date,total) do
     time = DateTime.utc_now()
 
     %Pos.OrderMaster{
@@ -35,7 +36,8 @@ defmodule Pos.OrderMaster do
       gst: gst,
       charge: charge,
       tableNumber: tableNumber,
-      order_date: order_date
+      order_date: order_date,
+      total: total
     }
 
     |> Pos.Repo.insert()
@@ -174,7 +176,7 @@ defmodule Pos.OrderMaster do
   @doc false
   def changeset(order_master, attrs) do
     order_master
-    |> cast(attrs, [:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :charge, :tableNumber, :order_date, :s_gst, :c_gst])
-    |> validate_required([:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :chargez, :tableNumber, :order_date, :s_gst, :c_gst])
+    |> cast(attrs, [:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :charge, :tableNumber, :order_date, :s_gst, :c_gst, :total])
+    |> validate_required([:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :chargez, :tableNumber, :order_date, :s_gst, :c_gst, :total])
   end
 end

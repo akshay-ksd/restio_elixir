@@ -110,8 +110,6 @@ defmodule PosWeb.ProductChannel do
 
 
 
-
-
   def handle_out("addProduct", payload, socket) do
     push(socket, "addProduct", payload)
     {:noreply, socket}
