@@ -24,7 +24,7 @@ defmodule Pos.OrderMaster do
     timestamps(type: :utc_datetime_usec)
   end
 
-  def insertOrderMasterData(date,order_id,restaurent_id,status,otime,user_id,gst,charge,tableNumber,order_date,total) do
+  def insertOrderMasterData(date,order_id,restaurent_id,status,otime,user_id,gst,charge,tableNumber,order_date,total,year,month,day) do
     time = DateTime.utc_now()
 
     %Pos.OrderMaster{
@@ -174,8 +174,8 @@ defmodule Pos.OrderMaster do
 
   end
 
-  def getOrderByDate(restaurentId,dateStart,dateEnd) do
-    from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and p.order_date >= ^dateStart and p.order_date <= ^dateEnd,
+  def getOrderByDate(restaurentId,syear,smonth,sday,eyear,emonth,eday) do
+    from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and p.year >= ^syear and p.year <= ^eyear and p.month >= ^smonth and p.month <= ^emonth and p.day >= ^sday and p.day <= ^eday,
     select: %{order_id: p.order_id, time: p.time, gst: p.gst, charge: p.charge, order_date: p.order_date, total: p.gTotal})
     |> Pos.Repo.all()
   end
