@@ -107,16 +107,13 @@ defmodule PosWeb.ExpenceChannel do
 
   def handle_in("get_report", %{"data" => data}, socket) do
     restaurentId = data["rToken"]
-    # syear = data["syear"]
-    # smonth = data["smonth"]
-    # sday = data["sday"]
-    # eyear = data["eyear"]
-    # emonth = data["emonth"]
-    # eday = data["eday"]
     date = data["date"]
 
     orderData = OrderMaster.getOrderByDate(restaurentId,date)
-    broadcast!(socket, "get_report", %{orderData: orderData})
+    expenceData = Expence.getExpenceBydate(restaurentId, date)
+
+    data = %{"orderData" => orderData,"expenceData" => expenceData}
+    broadcast!(socket, "get_report", %{data: data})
     {:noreply, socket}
   end
 

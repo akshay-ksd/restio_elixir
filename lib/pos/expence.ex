@@ -111,6 +111,15 @@ defmodule Pos.Expence do
     |> Pos.Repo.all()
   end
 
+  def getExpenceBydate(restaurentId,date) do
+      from(p in Expence, where: p.restaurentId == ^restaurentId and p.date == ^date,
+      select: %{amount: p.amount,category: p.category,paymentType: p.paymentType,restaurentId: p.restaurentId,
+                date: p.date,month: p.month,year: p.year,expenceId: p.expenceId})
+      |> Pos.Repo.all()
+  end
+
+
+
   @doc false
   def changeset(expence, attrs) do
     expence
