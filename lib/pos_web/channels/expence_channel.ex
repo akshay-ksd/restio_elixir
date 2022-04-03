@@ -110,9 +110,11 @@ defmodule PosWeb.ExpenceChannel do
     date = data["date"]
 
     orderData = OrderMaster.getOrderByDate(restaurentId,date)
+    orderCount = length(orderData)
     expenceData = Expence.getExpenceBydate(restaurentId, date)
+    expenceCount = length(expenceData)
 
-    data = %{"orderData" => orderData,"expenceData" => expenceData}
+    data = %{"orderData" => orderData,"expenceData" => expenceData,"orderCount" => orderCount,"expenceCount" => expenceCount}
     broadcast!(socket, "get_report", %{data: data})
     {:noreply, socket}
   end
