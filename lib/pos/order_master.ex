@@ -176,8 +176,7 @@ defmodule Pos.OrderMaster do
 
   def getOrderByDate(restaurentId,dateStart,dateEnd) do
     from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and p.order_date >= ^dateStart and p.order_date <= ^dateEnd,
-    select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time,
-              user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber, order_date: p.order_date, s_gst: p.s_gst, total: p.gTotal})
+    select: %{order_id: p.order_id, time: p.time, gst: p.gst, charge: p.charge, order_date: p.order_date, total: p.gTotal})
     |> Pos.Repo.all()
   end
 
