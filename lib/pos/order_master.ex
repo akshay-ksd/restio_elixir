@@ -18,9 +18,10 @@ defmodule Pos.OrderMaster do
     field :order_date, :utc_datetime_usec
     field :s_gst, :float
     field :c_gst, :float
-    field :total, :float
+    field :gTotal, :string
+    field :date_order, :date
 
-    timestamps()
+    timestamps(type: :utc_datetime_usec)
   end
 
   def insertOrderMasterData(date,order_id,restaurent_id,status,otime,user_id,gst,charge,tableNumber,order_date,total) do
@@ -36,8 +37,8 @@ defmodule Pos.OrderMaster do
       gst: gst,
       charge: charge,
       tableNumber: tableNumber,
-      order_date: order_date,
-      total: total
+      order_date: time,
+      gTotal: total
     }
 
     |> Pos.Repo.insert()
@@ -62,7 +63,7 @@ defmodule Pos.OrderMaster do
   def updateOrderStatus(order_id,status,restaurent_id) do
     # time = DateTime.utc_now()
 
-    Pos.Repo.get_by(OrderMaster, order_id: order_id)
+    Pos.Repo.get_by(OrderMaster, order_id: order_id , restaurent_id: restaurent_id)
     |> Ecto.Changeset.change(%{status: status})
     |> Pos.Repo.update()
 
@@ -81,13 +82,13 @@ defmodule Pos.OrderMaster do
 
     # for i <- 0..count-1, i >= 0 do
     #   staffId = Enum.at(staffData, i)
-    #   Queue.addQueueData(accessid, restaurentId, section, staffId, task, time)
+      # Queue.addQueueData(accessid, restaurentId, section, staffId, task, time)
     # end
   end
 
   def updateOrderData(order_id,restaurent_id,gst,charge,tableNumber,total) do
     Pos.Repo.get_by(OrderMaster, order_id: order_id,restaurent_id: restaurent_id)
-    |> Ecto.Changeset.change(%{gst: gst,charge: charge,tableNumber: tableNumber,total: total})
+    |> Ecto.Changeset.change(%{gst: gst,charge: charge,tableNumber: tableNumber,gTotal: total})
     |> Pos.Repo.update()
   end
 
@@ -183,7 +184,7 @@ defmodule Pos.OrderMaster do
   @doc false
   def changeset(order_master, attrs) do
     order_master
-    |> cast(attrs, [:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :charge, :tableNumber, :order_date, :s_gst, :c_gst, :total])
-    |> validate_required([:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :chargez, :tableNumber, :order_date, :s_gst, :c_gst, :total])
+    |> cast(attrs, [:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :charge, :tableNumber, :order_date, :s_gst, :c_gst, :gTotal, :date_order])
+    |> validate_required([:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :chargez, :tableNumber, :order_date, :s_gst, :c_gst, :gTotal, :date_order])
   end
 end
