@@ -175,8 +175,9 @@ defmodule Pos.OrderMaster do
   end
 
   def getOrderByDate(restaurentId,syear,smonth,sday,eyear,emonth,eday) do
-    from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and p.year >= ^syear and p.year <= ^eyear and p.month >= ^smonth and p.month <= ^emonth and p.day >= ^sday and p.day <= ^eday,
-    select: %{order_id: p.order_id, time: p.time, gst: p.gst, charge: p.charge, order_date: p.order_date, total: p.gTotal})
+    # and p.year >= ^syear and p.year <= ^eyear and p.month >= ^smonth and p.month <= ^emonth and p.day >= ^sday and p.day <= ^eday
+    from(p in OrderMaster, where: p.restaurent_id == ^restaurentId ,
+    select: %{order_id: p.order_id, time: p.time, gst: p.gst, charge: p.charge, order_date: p.order_date, total: p.gTotal, year: p.year, month: p.month, day: p.day})
     |> Pos.Repo.all()
   end
 
