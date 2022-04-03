@@ -20,6 +20,9 @@ defmodule Pos.OrderMaster do
     field :c_gst, :float
     field :gTotal, :string
     field :date_order, :date
+    field :year, :integer
+    field :month, :integer
+    field :day, :integer
 
     timestamps(type: :utc_datetime_usec)
   end
@@ -37,8 +40,11 @@ defmodule Pos.OrderMaster do
       gst: gst,
       charge: charge,
       tableNumber: tableNumber,
-      order_date: time,
-      gTotal: total
+      order_date: order_date,
+      gTotal: total,
+      year: year,
+      month: month,
+      day: day
     }
 
     |> Pos.Repo.insert()
@@ -174,9 +180,9 @@ defmodule Pos.OrderMaster do
 
   end
 
-  def getOrderByDate(restaurentId,date) do
+  def getOrderByDate(restaurentId,syear,smonth,sday,eyear,emonth,eday) do
     # and p.year >= ^syear and p.year <= ^eyear and p.month >= ^smonth and p.month <= ^emonth and p.day >= ^sday and p.day <= ^eday
-    from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and p.time == ^date,
+    from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and p.year >= ^syear and p.year <= ^eyear and p.month >= ^smonth and p.month <= ^emonth and p.day >= ^sday and p.day <= ^eday,
     select: %{order_id: p.order_id, time: p.time, gst: p.gst, charge: p.charge, order_date: p.order_date, total: p.gTotal, year: p.year, month: p.month, day: p.day})
     |> Pos.Repo.all()
   end
@@ -184,7 +190,7 @@ defmodule Pos.OrderMaster do
   @doc false
   def changeset(order_master, attrs) do
     order_master
-    |> cast(attrs, [:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :charge, :tableNumber, :order_date, :s_gst, :c_gst, :gTotal, :date_order])
-    |> validate_required([:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :chargez, :tableNumber, :order_date, :s_gst, :c_gst, :gTotal, :date_order])
+    |> cast(attrs, [:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :charge, :tableNumber, :order_date, :s_gst, :c_gst, :gTotal, :date_order, :year, :month, :day])
+    |> validate_required([:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :chargez, :tableNumber, :order_date, :s_gst, :c_gst, :gTotal, :date_order, :year, :month, :day])
   end
 end
