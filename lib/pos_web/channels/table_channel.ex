@@ -25,6 +25,7 @@ defmodule PosWeb.TableChannel do
     tableDetails = Table.getTableDetailsByRestaurentId(restaurentId)
 
     broadcast!(socket, "getTabledetails", %{"tableDetails" => tableDetails})
+    {:noreply, socket}
   end
 
   def handle_out("addTable", payload, socket) do
