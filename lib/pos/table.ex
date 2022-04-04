@@ -1,6 +1,7 @@
 defmodule Pos.Table do
   use Ecto.Schema
-  import Ecto.Changeset
+  import Ecto.{Query, Changeset}, warn: false
+  alias Pos.Table
 
   schema "table" do
     field :name, :string
@@ -13,6 +14,12 @@ defmodule Pos.Table do
     %Pos.Table{restaurentId: restaurentId,
                name: name}
     |> Pos.Repo.insert()
+  end
+
+  def getTableDetailsByRestaurentId(restaurentId) do
+    from(p in Table, where: p.restaurentId == ^restaurentId,
+    select: %{name: p.name,id: p.id})
+    |> Pos.Repo.all()
   end
 
   @doc false
