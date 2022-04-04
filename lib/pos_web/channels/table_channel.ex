@@ -13,9 +13,9 @@ defmodule PosWeb.TableChannel do
     restaurentId = data["restaurentId"]
     name = data["name"]
 
-    Table.addTableDetails(restaurentId, name)
+    table = Table.addTableDetails(restaurentId, name)
 
-    broadcast!(socket, "addTable", %{"data" => data})
+    broadcast!(socket, "addTable", %{"data" => table})
     {:reply, :ok, socket}
   end
 
