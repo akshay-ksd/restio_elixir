@@ -2,7 +2,7 @@ defmodule PosWeb.TableChannel do
   use PosWeb, :channel
   alias Pos.Table
 
-  intercept ["addTable","getTabledetails"]
+  intercept ["getTabledetails"]
 
   def join("table:" <> _restaurentid, _params, socket) do
     {:ok, %{"status" => true}, socket}
@@ -13,9 +13,9 @@ defmodule PosWeb.TableChannel do
     restaurentId = data["restaurentId"]
     name = data["name"]
 
-    table = Table.addTableDetails(restaurentId, name)
+    Table.addTableDetails(restaurentId, name)
 
-    broadcast!(socket, "addTable", %{"data" => table})
+    # broadcast!(socket, "addTable", %{"data" => data})
     {:reply, :ok, socket}
   end
 
@@ -28,10 +28,10 @@ defmodule PosWeb.TableChannel do
     {:noreply, socket}
   end
 
-  def handle_out("addTable", payload, socket) do
-    push(socket, "addTable", payload)
-    {:noreply, socket}
-  end
+  # def handle_out("addTable", payload, socket) do
+  #   push(socket, "addTable", payload)
+  #   {:noreply, socket}
+  # end
 
   def handle_out("getTabledetails", payload, socket) do
     push(socket, "getTabledetails", payload)
