@@ -30,71 +30,71 @@ defmodule Pos.Expence do
     }
 
     |> Pos.Repo.insert()
-    access1 = "ALL"
-    access2 = "MENU"
+    # access1 = "ALL"
+    # access2 = "MENU"
 
-    accessid = expenceId
-    restaurentId = restaurentId
-    restaurent_id = restaurentId
-    section = "Expence"
-    task = "ADD"
-    time = DateTime.utc_now()
+    # accessid = expenceId
+    # restaurentId = restaurentId
+    # restaurent_id = restaurentId
+    # section = "Expence"
+    # task = "ADD"
+    # time = DateTime.utc_now()
 
-    staffData = Staff.getTokenByAccess(restaurent_id, access1, access2)
-    count = Enum.count(staffData)
+    # staffData = Staff.getTokenByAccess(restaurent_id, access1, access2)
+    # count = Enum.count(staffData)
 
-    for i <- 0..count-1, i >= 0 do
-       staffId = Enum.at(staffData, i)
-       Queue.addQueueData(accessid, restaurentId, section, staffId, task, time)
-    end
+    # for i <- 0..count-1, i >= 0 do
+    #    staffId = Enum.at(staffData, i)
+    #    Queue.addQueueData(accessid, restaurentId, section, staffId, task, time)
+    # end
   end
 
   def updateExpence(restaurentId,paymentType,category,amount,expenceId) do
     Pos.Repo.get_by(Expence, restaurentId: restaurentId, expenceId: expenceId)
     |> Ecto.Changeset.change(%{ paymentType: paymentType, category: category, amount: amount})
     |> Pos.Repo.update()
-    access1 = "ALL"
-    access2 = "MENU"
+    # access1 = "ALL"
+    # access2 = "MENU"
 
-    accessid = expenceId
-    restaurentId = restaurentId
-    restaurent_id = restaurentId
-    section = "Expence"
-    task = "UPDATE"
-    time = DateTime.utc_now()
+    # accessid = expenceId
+    # restaurentId = restaurentId
+    # restaurent_id = restaurentId
+    # section = "Expence"
+    # task = "UPDATE"
+    # time = DateTime.utc_now()
 
-    Queue.deleteOldUpdate(restaurentId, section, task, accessid)
+    # Queue.deleteOldUpdate(restaurentId, section, task, accessid)
 
-    staffData = Staff.getTokenByAccess(restaurent_id, access1, access2)
-    count = Enum.count(staffData)
+    # staffData = Staff.getTokenByAccess(restaurent_id, access1, access2)
+    # count = Enum.count(staffData)
 
-    for i <- 0..count-1, i >= 0 do
-       staffId = Enum.at(staffData, i)
-       Queue.addQueueData(accessid, restaurentId, section, staffId, task, time)
-    end
+    # for i <- 0..count-1, i >= 0 do
+    #    staffId = Enum.at(staffData, i)
+    #    Queue.addQueueData(accessid, restaurentId, section, staffId, task, time)
+    # end
   end
 
   def deleteExpence(restaurentId,expenceId) do
     data = Pos.Repo.get_by(Expence, restaurentId: restaurentId, expenceId: expenceId)
     Pos.Repo.delete(data)
 
-    access1 = "ALL"
-    access2 = "MENU"
+    # access1 = "ALL"
+    # access2 = "MENU"
 
-    accessid = expenceId
-    restaurentId = restaurentId
-    restaurent_id = restaurentId
-    section = "Expence"
-    task = "DELETE"
-    time = DateTime.utc_now()
+    # accessid = expenceId
+    # restaurentId = restaurentId
+    # restaurent_id = restaurentId
+    # section = "Expence"
+    # task = "DELETE"
+    # time = DateTime.utc_now()
 
-    staffData = Staff.getTokenByAccess(restaurent_id, access1, access2)
-    count = Enum.count(staffData)
+    # staffData = Staff.getTokenByAccess(restaurent_id, access1, access2)
+    # count = Enum.count(staffData)
 
-    for i <- 0..count-1, i >= 0 do
-       staffId = Enum.at(staffData, i)
-       Queue.addQueueData(accessid, restaurentId, section, staffId, task, time)
-    end
+    # for i <- 0..count-1, i >= 0 do
+    #    staffId = Enum.at(staffData, i)
+    #    Queue.addQueueData(accessid, restaurentId, section, staffId, task, time)
+    # end
   end
 
   def getExpenceById(restaurentId,expenceId) do

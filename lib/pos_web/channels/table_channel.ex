@@ -28,6 +28,15 @@ defmodule PosWeb.TableChannel do
     {:noreply, socket}
   end
 
+  def handle_in("updateDetails", %{"data" => data}, socket) do
+    restaurentId = data["restaurentId"]
+    id = data["id"]
+    name = data["name"]
+
+    Table.updateDetails(restaurentId, id, name)
+    {:reply, :ok, socket}
+  end
+
   # def handle_out("addTable", payload, socket) do
   #   push(socket, "addTable", payload)
   #   {:noreply, socket}

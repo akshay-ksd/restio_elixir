@@ -22,6 +22,12 @@ defmodule Pos.Table do
     |> Pos.Repo.all()
   end
 
+  def updateDetails(restaurentId,id,name) do
+    Pos.Repo.get_by(Table, restaurentId: restaurentId, id: id)
+    |> Ecto.Changeset.change(%{name: name})
+    |> Pos.Repo.update()
+  end
+
   @doc false
   def changeset(table, attrs) do
     table
