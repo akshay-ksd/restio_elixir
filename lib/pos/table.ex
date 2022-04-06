@@ -28,6 +28,11 @@ defmodule Pos.Table do
     |> Pos.Repo.update()
   end
 
+  def deleteDetails(restaurentId,id) do
+    data = Pos.Repo.get_by(Table, restaurentId: restaurentId,id: id)
+    Pos.Repo.delete(data)
+  end
+
   @doc false
   def changeset(table, attrs) do
     table
