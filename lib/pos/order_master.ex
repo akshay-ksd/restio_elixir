@@ -23,6 +23,7 @@ defmodule Pos.OrderMaster do
     field :year, :integer
     field :month, :integer
     field :day, :integer
+    field :tableDetails, :string
 
     timestamps(type: :utc_datetime_usec)
   end
@@ -39,7 +40,7 @@ defmodule Pos.OrderMaster do
       user_id: user_id,
       gst: gst,
       charge: charge,
-      tableNumber: tableNumber,
+      tableDetails: tableNumber,
       order_date: order_date,
       gTotal: total,
       year: year,
@@ -94,21 +95,21 @@ defmodule Pos.OrderMaster do
 
   def updateOrderData(order_id,restaurent_id,gst,charge,tableNumber,total) do
     Pos.Repo.get_by(OrderMaster, order_id: order_id,restaurent_id: restaurent_id)
-    |> Ecto.Changeset.change(%{gst: gst,charge: charge,tableNumber: tableNumber,gTotal: total})
+    |> Ecto.Changeset.change(%{gst: gst,charge: charge,tableDetails: tableNumber,gTotal: total})
     |> Pos.Repo.update()
   end
 
   def getOrderById(restaurentId,orderId) do
     from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and p.order_id == ^orderId,
     select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time,
-              user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber, order_date: p.order_date, s_gst: p.s_gst})
+              user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableDetails, order_date: p.order_date, s_gst: p.s_gst})
     |> Pos.Repo.all()
   end
 
   def getOrderDataByRestaurentId(restaurentId) do
     from(p in OrderMaster, where: p.restaurent_id == ^restaurentId,
     select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time,
-              user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber, order_date: p.order_date, s_gst: p.s_gst})
+              user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableDetails, order_date: p.order_date, s_gst: p.s_gst})
     |> Pos.Repo.all()
   end
 
@@ -118,13 +119,13 @@ defmodule Pos.OrderMaster do
         if date == false do
           from(p in OrderMaster, where: p.restaurent_id == ^restaurentId,order_by: fragment("? DESC", p.inserted_at), limit: ^limit, offset: ^offset,
           select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time,
-                    user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber, order_date: p.inserted_at, s_gst: p.s_gst, id: p.id})
+                    user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableDetails, order_date: p.inserted_at, s_gst: p.s_gst, id: p.id})
           |> Pos.Repo.all()
         else
           from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and p.time == ^date,
           limit: ^limit, offset: ^offset,
           select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time,
-                    user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber, order_date: p.inserted_at, s_gst: p.s_gst, id: p.id})
+                    user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableDetails, order_date: p.inserted_at, s_gst: p.s_gst, id: p.id})
           |> Pos.Repo.all()
         end
 
@@ -134,13 +135,13 @@ defmodule Pos.OrderMaster do
         if date == false do
           from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and p.status == 0,order_by: fragment("? DESC", p.inserted_at), limit: ^limit, offset: ^offset,
           select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time,
-                    user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber, order_date: p.order_date, s_gst: p.s_gst, id: p.id})
+                    user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableDetails, order_date: p.order_date, s_gst: p.s_gst, id: p.id})
           |> Pos.Repo.all()
         else
           from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and p.status == 0 and p.time == ^date,
           order_by: fragment("? DESC", p.inserted_at), limit: ^limit, offset: ^offset,
           select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time,
-                    user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber, order_date: p.order_date, s_gst: p.s_gst, id: p.id})
+                    user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableDetails, order_date: p.order_date, s_gst: p.s_gst, id: p.id})
           |> Pos.Repo.all()
         end
 
@@ -149,13 +150,13 @@ defmodule Pos.OrderMaster do
         if date == false do
           from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and p.status > 0 and p.status < 4,order_by: fragment("? DESC", p.inserted_at), limit: ^limit, offset: ^offset,
           select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time,
-                    user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber, order_date: p.order_date, s_gst: p.s_gst, id: p.id})
+                    user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableDetails, order_date: p.order_date, s_gst: p.s_gst, id: p.id})
           |> Pos.Repo.all()
         else
           from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and p.status > 0 and p.status < 4 and p.time == ^date,
           order_by: fragment("? DESC", p.inserted_at), limit: ^limit, offset: ^offset,
           select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time,
-                    user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber, order_date: p.order_date, s_gst: p.s_gst, id: p.id})
+                    user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableDetails, order_date: p.order_date, s_gst: p.s_gst, id: p.id})
           |> Pos.Repo.all()
         end
 
@@ -165,13 +166,13 @@ defmodule Pos.OrderMaster do
         if date == false do
           from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and p.status == 4,order_by: fragment("? DESC", p.inserted_at), limit: ^limit, offset: ^offset,
           select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time,
-                    user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber, order_date: p.order_date, s_gst: p.s_gst, id: p.id})
+                    user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableDetails, order_date: p.order_date, s_gst: p.s_gst, id: p.id})
           |> Pos.Repo.all()
         else
           from(p in OrderMaster, where: p.restaurent_id == ^restaurentId and p.status == 4 and p.time == ^date,
           order_by: fragment("? DESC", p.inserted_at), limit: ^limit, offset: ^offset,
           select: %{order_id: p.order_id, date: p.date, restaurent_id: p.restaurent_id, status: p.status, time: p.time,
-                    user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableNumber, order_date: p.order_date, s_gst: p.s_gst, id: p.id})
+                    user_id: p.user_id, gst: p.gst, charge: p.charge, tableNumber: p.tableDetails, order_date: p.order_date, s_gst: p.s_gst, id: p.id})
           |> Pos.Repo.all()
         end
 
@@ -190,7 +191,7 @@ defmodule Pos.OrderMaster do
   @doc false
   def changeset(order_master, attrs) do
     order_master
-    |> cast(attrs, [:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :charge, :tableNumber, :order_date, :s_gst, :c_gst, :gTotal, :date_order, :year, :month, :day])
-    |> validate_required([:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :chargez, :tableNumber, :order_date, :s_gst, :c_gst, :gTotal, :date_order, :year, :month, :day])
+    |> cast(attrs, [:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :charge, :tableNumber, :order_date, :s_gst, :c_gst, :gTotal, :date_order, :year, :month, :day, :tableDetails])
+    |> validate_required([:order_id, :time, :status, :date, :restaurent_id, :user_id, :gst, :chargez, :tableNumber, :order_date, :s_gst, :c_gst, :gTotal, :date_order, :year, :month, :day, :tableDetails])
   end
 end
