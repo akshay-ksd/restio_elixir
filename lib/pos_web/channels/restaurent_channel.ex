@@ -2,7 +2,7 @@ defmodule PosWeb.RestaurentChannel do
   use PosWeb, :channel
   alias Pos.Restaurent
   alias Pos.Staff
-  intercept ["addRest","updateRest"]
+  intercept ["addRest","updateRest","getRestaurent"]
   def join("restaurent:" <> _restaurentid, _params, socket) do
     {:ok, %{"status" => true}, socket}
   end
@@ -54,6 +54,14 @@ defmodule PosWeb.RestaurentChannel do
     {:noreply, socket}
   end
 
+  def handle_in("getRestaurent", %{"data" => data}, socket) do
+    offset = data["offset"]
+    limit = data["limit"]
+    restData = Restaurent.getRestaurent(offset, limit)
+    broadcast!(socket, "getRestaurent", %{"restData" => restData})
+    {:noreply, socket}
+  end
+
   def handle_out("addRest", payload, socket) do
     push(socket, "addRest", payload)
     {:noreply, socket}
@@ -66,6 +74,11 @@ defmodule PosWeb.RestaurentChannel do
 
   def handle_out("updateCharges", payload, socket) do
     push(socket, "updateCharges", payload)
+    {:noreply, socket}
+  end
+
+  def handle_out("getRestaurent", payload, socket) do
+    push(socket, "getRestaurent", payload)
     {:noreply, socket}
   end
 end

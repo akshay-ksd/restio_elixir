@@ -67,6 +67,13 @@ defmodule Pos.Restaurent do
     |> Pos.Repo.update()
   end
 
+  def getRestaurent(offset,limit) do
+    from(p in Restaurent, order_by: fragment("? DESC", p.inserted_at), limit: ^limit, offset: ^offset,
+    select: %{address: p.address,email_id: p.email_id,image_url: p.image_url,latitude: p.latitude,
+              longitude: p.longitude,name: p.name,number: p.number,token: p.token,charge: p.charge,gst: p.gst, s_gst: p.s_gst})
+    |> Pos.Repo.all()
+  end
+
   def updateTableCount(token,tableCount) do
     Pos.Repo.get_by(Restaurent, token: token)
     |> Ecto.Changeset.change(%{tableCount: tableCount})
