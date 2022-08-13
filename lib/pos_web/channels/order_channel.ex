@@ -199,6 +199,7 @@ defmodule PosWeb.OrderChannel do
                 s_data = %{"data" => false}
                 broadcast!(socket, "getOrder", %{"data" => s_data})
             end
+    Logger.info(all_data)
     {:noreply, socket}
   end
 
