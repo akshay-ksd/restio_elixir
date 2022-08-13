@@ -191,8 +191,9 @@ defmodule PosWeb.OrderChannel do
                     orderId = elem(data_order, 1)
                     order_details_data = Order.getOrderDetailsById(restaurentId, orderId)
                     s_data = %{"data" => order_data,"order_details_data" => order_details_data}
-                    Map.put_new(%{all_data}, s_data)
-                    Logger.log(all_data)
+                    map = %{:a => 1, 2 => :b}
+                    new_map = Dict.put_new(map, :new_val, "value")
+                    IO.puts(new_map[:new_val])
                     broadcast!(socket, "getOrder", %{"data" => s_data})
                 end
             else
