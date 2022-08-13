@@ -192,7 +192,7 @@ defmodule PosWeb.OrderChannel do
                     orderId = elem(data_order, 1)
                     order_details_data = Order.getOrderDetailsById(restaurentId, orderId)
 
-                    merge = Map.merge(order_data, order_details_data)
+                    merge = {order_data,order_details_data}
                     Logger.info(merge)
                     s_data = %{"data" => order_data,"order_details_data" => order_details_data}
                     broadcast!(socket, "getOrder", %{"data" => s_data})
