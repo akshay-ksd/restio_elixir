@@ -193,6 +193,7 @@ defmodule PosWeb.OrderChannel do
                     order_details_data = Order.getOrderDetailsById(restaurentId, orderId)
                     s_data = %{"data" => order_data,"order_details_data" => order_details_data}
                     all_data = [s_data | all_data]
+                    Logger.info(all_data)
                     broadcast!(socket, "getOrder", %{"data" => s_data})
                 end
             else
