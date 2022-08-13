@@ -194,11 +194,11 @@ defmodule PosWeb.OrderChannel do
                     List.insert_at(all_data, -1, s_data)
                     broadcast!(socket, "getOrder", %{"data" => s_data})
 
-                    if o == count do
+                    # if o == count do
                       Logger.info(o)
                       Logger.info(count)
-                      Logger.info(all_data)
-                    end
+                    #   Logger.info(all_data)
+                    # end
                 end
             else
                 s_data = %{"data" => false}
