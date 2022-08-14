@@ -278,7 +278,7 @@ defmodule PosWeb.OrderChannel do
             id = elem(dater, 1)
             y = Order.getOrderDetailsById(restaurentId, id)
             new = Map.put(x, :product, y)
-            [new | acc]
+            [acc | new]
           end)
     Logger.info(map)
     # broadcast!(socket, "getOrder", %{"data" => map})
