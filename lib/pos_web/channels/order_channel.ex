@@ -198,7 +198,7 @@ defmodule PosWeb.OrderChannel do
                 broadcast!(socket, "getOrder", %{"data" => s_data})
             end
             Enum.reduce order_master_data, %{}, fn x, acc ->
-              Logger.info(acc)
+              Logger.info(x)
               Map.put(acc, x, x)
             end
     {:noreply, socket}
