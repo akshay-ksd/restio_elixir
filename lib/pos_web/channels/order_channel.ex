@@ -187,8 +187,6 @@ defmodule PosWeb.OrderChannel do
             if count !== 0 do
                 for o <- 0..count-1, o >= 0  do
                     order_data = Enum.at(order_master_data, o)
-                    Logger.info("loop")
-                    Logger.info(order_data)
                     data_order = Enum.at(order_data, 5)
                     orderId = elem(data_order, 1)
                     order_details_data = Order.getOrderDetailsById(restaurentId, orderId)
@@ -200,8 +198,8 @@ defmodule PosWeb.OrderChannel do
                 broadcast!(socket, "getOrder", %{"data" => s_data})
             end
             Enum.reduce order_master_data, %{}, fn x, acc ->
-              Logger.info("enum")
-              Logger.info(x)
+              dater = Enum.at(x, 5)
+              Logger.info(dater)
               Map.put(acc, x, x)
             end
     {:noreply, socket}
