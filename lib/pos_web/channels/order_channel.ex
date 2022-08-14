@@ -200,9 +200,8 @@ defmodule PosWeb.OrderChannel do
             end
             map = Enum.reduce order_master_data, %{}, fn x, acc ->
               Map.put(acc, x, x)
+              Logger.info(x)
             end
-
-            Logger.info(map)
     {:noreply, socket}
   end
 
