@@ -279,7 +279,7 @@ defmodule PosWeb.OrderChannel do
             y = Order.getOrderDetailsById(restaurentId, id)
             Map.put(acc, :product, y)
           end)
-    IO.inspect(map)
+    Logger.info(map)
     # broadcast!(socket, "getOrder", [map])
     {:noreply, socket}
   end
