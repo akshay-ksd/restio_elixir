@@ -277,7 +277,7 @@ defmodule PosWeb.OrderChannel do
             dater = Enum.at(x, 5)
             id = elem(dater, 1)
             y = Order.getOrderDetailsById(restaurentId, id)
-            Map.put(acc, x, y)
+            Map.put(acc, :product, y)
           end)
     IO.inspect(map)
     # broadcast!(socket, "getOrder", [map])
