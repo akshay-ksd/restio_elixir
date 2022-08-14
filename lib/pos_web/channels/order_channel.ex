@@ -190,13 +190,11 @@ defmodule PosWeb.OrderChannel do
                     data_order = Enum.at(order_data, 5)
                     orderId = elem(data_order, 1)
                     order_details_data = Order.getOrderDetailsById(restaurentId, orderId)
-                    List.insert_at(order_master_data, -1, order_details_data)
+                    List.insert_at(order_data, -1, order_details_data)
                     s_data = %{"data" => order_data,"order_details_data" => order_details_data}
                     broadcast!(socket, "getOrder", %{"data" => s_data})
 
-                    if o == count-1 do
-                      Logger.info(order_master_data)
-                    end
+                    Logger.info(order_data)
                 end
             else
                 s_data = %{"data" => false}
