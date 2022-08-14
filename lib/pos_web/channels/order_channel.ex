@@ -195,8 +195,6 @@ defmodule PosWeb.OrderChannel do
                     broadcast!(socket, "getOrder", %{"data" => s_data})
 
                     if o == count-1 do
-                      Logger.info(o)
-                      Logger.info(count)
                       Logger.info(all_data)
                     end
                 end
