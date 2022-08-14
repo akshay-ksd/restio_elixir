@@ -280,8 +280,7 @@ defmodule PosWeb.OrderChannel do
             new = Map.put(x, :product, y)
             Map.put(acc, x, new)
           end)
-    Logger.info(map)
-    # broadcast!(socket, "getOrder", %{"data" => "map"})
+    broadcast!(socket, "getOrder", %{"data" => map})
     {:noreply, socket}
   end
 
