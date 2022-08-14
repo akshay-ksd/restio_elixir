@@ -200,7 +200,8 @@ defmodule PosWeb.OrderChannel do
             Enum.reduce order_master_data, %{}, fn x, acc ->
               dater = Enum.at(x, 5)
               id = elem(dater, 1)
-              Logger.info(id)
+              order_details_data_t = Order.getOrderDetailsById(restaurentId, id)
+              Logger.info(order_details_data_t)
               Map.put(acc, x, x)
             end
     {:noreply, socket}
