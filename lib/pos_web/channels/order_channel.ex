@@ -255,13 +255,14 @@ defmodule PosWeb.OrderChannel do
 
     date = data["date"]
 
-    # order_master_data =
-    #   OrderMaster.getOrderByPagination(restaurentId, limit, offset, filterType, date)
-    #   count = Enum.count(order_master_data)
+    order_master_data =
+      OrderMaster.getOrderByPagination(restaurentId, limit, offset, filterType, date)
+
+    # count = Enum.count(order_master_data)
+
     #         if count !== 0 do
     #             for o <- 0..count-1, o >= 0  do
     #                 order_data = Enum.at(order_master_data, o)
-
     #                 data_order = Enum.at(order_data, 5)
     #                 orderId = elem(data_order, 1)
     #                 order_details_data = Order.getOrderDetailsById(restaurentId, orderId)
@@ -276,10 +277,11 @@ defmodule PosWeb.OrderChannel do
             dater = Enum.at(x, 5)
             id = elem(dater, 1)
             y = Order.getOrderDetailsById(restaurentId, id)
-            Map.put(x, :product, y)
+            new = Map.put(x, :product, y)
+            Map.put(acc, new, "new")
           end)
     Logger.info(map)
-    # broadcast!(socket, "getOrder", %{"data" => map})
+    broadcast!(socket, "getOrder", %{"data" => map})
     {:noreply, socket}
   end
 
