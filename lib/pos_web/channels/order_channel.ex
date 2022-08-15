@@ -273,13 +273,15 @@ defmodule PosWeb.OrderChannel do
     #             s_data = %{"data" => false}
     #             broadcast!(socket, "getOrder", %{"data" => s_data})
     #         end
-          Enum.reduce(order_master_data, %{}, fn x, acc ->
+          map = Enum.reduce(order_master_data, %{}, fn x, acc ->
             dater = Enum.at(x, 5)
             id = elem(dater, 1)
             y = Order.getOrderDetailsById(restaurentId, id)
             new = Map.put(x, :product, y)
-            broadcast!(socket, "getOrder", %{"data" => new})
+            Map.merge(acc, new)
+            # broadcast!(socket, "getOrder", %{"data" => new})
           end)
+          Logger.info(map)
     {:noreply, socket}
   end
 
