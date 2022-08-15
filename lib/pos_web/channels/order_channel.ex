@@ -258,7 +258,7 @@ defmodule PosWeb.OrderChannel do
     order_master_data =
       OrderMaster.getOrderByPagination(restaurentId, limit, offset, filterType, date)
       count = Enum.count(order_master_data)
-
+      Logger.info(order_master_data)
             if count !== 0 do
                 for o <- 0..count-1, o >= 0  do
                     order_data = Enum.at(order_master_data, o)
