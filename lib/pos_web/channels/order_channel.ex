@@ -258,30 +258,31 @@ defmodule PosWeb.OrderChannel do
     order_master_data =
       OrderMaster.getOrderByPagination(restaurentId, limit, offset, filterType, date)
 
-    # count = Enum.count(order_master_data)
+    count = Enum.count(order_master_data)
 
-    #         if count !== 0 do
-    #             for o <- 0..count-1, o >= 0  do
-    #                 order_data = Enum.at(order_master_data, o)
-    #                 data_order = Enum.at(order_data, 5)
-    #                 orderId = elem(data_order, 1)
-    #                 order_details_data = Order.getOrderDetailsById(restaurentId, orderId)
-    #                 s_data = %{"data" => order_data,"order_details_data" => order_details_data}
-    #                 broadcast!(socket, "getOrder", %{"data" => s_data})
-    #             end
-    #         else
-    #             s_data = %{"data" => false}
-    #             broadcast!(socket, "getOrder", %{"data" => s_data})
-    #         end
-          map = Enum.reduce(order_master_data, %{}, fn x, acc ->
-            dater = Enum.at(x, 5)
-            id = elem(dater, 1)
-            y = Order.getOrderDetailsById(restaurentId, id)
-            new = Map.put(x, :product, y)
-            Map.merge(acc, new)
-            # broadcast!(socket, "getOrder", %{"data" => new})
-          end)
-          Logger.info(map)
+            if count !== 0 do
+                map = for o <- 0..count-1, o >= 0  do
+                          order_data = Enum.at(order_master_data, o)
+                          data_order = Enum.at(order_data, 5)
+                          orderId = elem(data_order, 1)
+                          order_details_data = Order.getOrderDetailsById(restaurentId, orderId)
+                          Map.put(order_data, o, order_details_data)
+                          # s_data = %{"data" => order_data,"order_details_data" => order_details_data}
+                          # broadcast!(socket, "getOrder", %{"data" => s_data})
+                      end
+               Logger.info(map)
+            else
+                s_data = %{"data" => false}
+                broadcast!(socket, "getOrder", %{"data" => s_data})
+            end
+          # map = Enum.reduce(order_master_data, %{}, fn x, acc ->
+          #   dater = Enum.at(x, 5)
+          #   id = elem(dater, 1)
+          #   y = Order.getOrderDetailsById(restaurentId, id)
+          #   new = Map.put(x, :product, y)
+          #   # broadcast!(socket, "getOrder", %{"data" => new})
+          # end)
+          # Logger.info(map)
     {:noreply, socket}
   end
 
