@@ -123,7 +123,22 @@ defmodule PosWeb.ExpenceChannel do
                 data_order = Enum.at(order_data, 3)
                 orderId = elem(data_order, 1)
                 order_details_data = Order.getOrderDetailsById(restaurentId, orderId)
-                Map.put(order_data, :product, order_details_data)
+                o_count = Enum.count(order_details_data)
+                if o_count !== 0 do
+                  total = 0
+                  new_total = for i <- 0..o_count-1, i >= 0 do
+                                  details_data = Enum.at(order_details_data, i)
+                                  price_data = Enum.at(details_data, 5)
+                                  price = elem(price_data, 1)
+
+                                  count_data = Enum.at(details_data, 7)
+                                  counts = elem(count_data, 1)
+
+                                  t = price * counts
+                                  total = total + t
+                              end
+                  Map.put(order_data, :gTotal, new_total)
+                end
             end
       data = %{"orderData" => map,"expenceData" => expenceData,"orderCount" => orderCount,"expenceCount" => expenceCount}
       broadcast!(socket, "get_report", %{data: data})
