@@ -3,6 +3,7 @@ defmodule PosWeb.ExpenceChannel do
   alias Pos.Expence
   alias Pos.Queue
   alias Pos.OrderMaster
+  alias Pos.Order
 
   intercept ["addExpence","updateExpence","deleteExpence","checkQueue","get_report"]
 
@@ -114,9 +115,24 @@ defmodule PosWeb.ExpenceChannel do
     expenceData = Expence.getExpenceBydate(restaurentId, date)
     expenceCount = length(expenceData)
 
-    data = %{"orderData" => orderData,"expenceData" => expenceData,"orderCount" => orderCount,"expenceCount" => expenceCount}
-    broadcast!(socket, "get_report", %{data: data})
-    {:noreply, socket}
+    count = Enum.count(orderData)
+
+    if count !== 0 do
+      map = for o <- 0..count-1, o >= 0  do
+                order_data = Enum.at(orderData, o)
+                data_order = Enum.at(order_data, 5)
+                orderId = elem(data_order, 1)
+                order_details_data = Order.getOrderDetailsById(restaurentId, orderId)
+                Map.put(order_data, :product, order_details_data)
+            end
+      data = %{"orderData" => map,"expenceData" => expenceData,"orderCount" => orderCount,"expenceCount" => expenceCount}
+      broadcast!(socket, "get_report", %{data: data})
+      {:noreply, socket}
+    else
+      data = %{"orderData" => false,"expenceData" => expenceData,"orderCount" => orderCount,"expenceCount" => expenceCount}
+      broadcast!(socket, "get_report", %{data: data})
+      {:noreply, socket}
+    end
   end
 
   def handle_out("addExpence", payload, socket) do
