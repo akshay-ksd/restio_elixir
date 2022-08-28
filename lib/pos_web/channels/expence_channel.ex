@@ -5,7 +5,7 @@ defmodule PosWeb.ExpenceChannel do
   alias Pos.OrderMaster
   alias Pos.Order
 
-  intercept ["addExpence","updateExpence","deleteExpence","checkQueue","get_report"]
+  intercept ["addExpence", "updateExpence", "deleteExpence", "checkQueue", "get_report"]
 
   def join("expence:" <> _restaurentid, _params, socket) do
     {:ok, %{"status" => true}, socket}
@@ -21,7 +21,7 @@ defmodule PosWeb.ExpenceChannel do
     year = expence["year"]
     expenceId = expence["expenceId"]
 
-    Expence.addExpence(restaurentId,paymentType,category,amount,date,month,year,expenceId)
+    Expence.addExpence(restaurentId, paymentType, category, amount, date, month, year, expenceId)
 
     broadcast!(socket, "addExpence", %{expence: expence})
     {:noreply, socket}
@@ -44,7 +44,7 @@ defmodule PosWeb.ExpenceChannel do
     expenceId = expence["expenceId"]
     restaurentId = expence["restaurentId"]
 
-    Expence.deleteExpence(restaurentId,expenceId)
+    Expence.deleteExpence(restaurentId, expenceId)
 
     broadcast!(socket, "deleteExpence", %{expence: expence})
     {:noreply, socket}
@@ -58,42 +58,56 @@ defmodule PosWeb.ExpenceChannel do
     queue_data = Queue.getQueue(restaurentId, staffId, section, task)
     count = Enum.count(queue_data)
 
-        if count !== 0 do
-          for i <- 0..count-1, i >= 0 do
-                expenceId =  Enum.at(queue_data, i)
-            if task !== "DELETE" do
-                expence = Expence.getExpenceById(restaurentId, expenceId)
-                scount = Enum.count(expence)
-                if scount !== 0 do
-                  staff_data = %{"expence" => expence,
-                                "task" => task,
-                                "staffId" => staffId,
-                                "section" => section}
-                  broadcast!(socket, "checkQueue", %{"data" => staff_data})
-                else
-                  staff_data = %{"expence" => false,
-                                 "task" => task,
-                                 "staffId" => staffId,
-                                 "section" => section}
-                  broadcast!(socket, "checkQueue", %{"data" => staff_data})
-                end
-            else
-                staff_data = %{"expence" => expenceId,
-                               "task" => task,
-                               "staffId" => staffId,
-                               "section" => section}
-                broadcast!(socket, "checkQueue", %{"data" => staff_data})
-            end
+    if count !== 0 do
+      for i <- 0..(count - 1), i >= 0 do
+        expenceId = Enum.at(queue_data, i)
+
+        if task !== "DELETE" do
+          expence = Expence.getExpenceById(restaurentId, expenceId)
+          scount = Enum.count(expence)
+
+          if scount !== 0 do
+            staff_data = %{
+              "expence" => expence,
+              "task" => task,
+              "staffId" => staffId,
+              "section" => section
+            }
+
+            broadcast!(socket, "checkQueue", %{"data" => staff_data})
+          else
+            staff_data = %{
+              "expence" => false,
+              "task" => task,
+              "staffId" => staffId,
+              "section" => section
+            }
+
+            broadcast!(socket, "checkQueue", %{"data" => staff_data})
           end
         else
-            staff_data = %{"expence" => false,
-                          "task" => task,
-                          "staffId" => staffId,
-                          "section" => section}
-            broadcast!(socket, "checkQueue", %{"data" => staff_data})
-        end
+          staff_data = %{
+            "expence" => expenceId,
+            "task" => task,
+            "staffId" => staffId,
+            "section" => section
+          }
 
-      {:noreply, socket}
+          broadcast!(socket, "checkQueue", %{"data" => staff_data})
+        end
+      end
+    else
+      staff_data = %{
+        "expence" => false,
+        "task" => task,
+        "staffId" => staffId,
+        "section" => section
+      }
+
+      broadcast!(socket, "checkQueue", %{"data" => staff_data})
+    end
+
+    {:noreply, socket}
   end
 
   def handle_in("deleteQue", %{"data" => data}, socket) do
@@ -110,7 +124,7 @@ defmodule PosWeb.ExpenceChannel do
     restaurentId = data["rToken"]
     date = data["date"]
 
-    orderData = OrderMaster.getOrderByDate(restaurentId,date)
+    orderData = OrderMaster.getOrderByDate(restaurentId, date)
     orderCount = length(orderData)
     expenceData = Expence.getExpenceBydate(restaurentId, date)
     expenceCount = length(expenceData)
@@ -118,33 +132,52 @@ defmodule PosWeb.ExpenceChannel do
     count = Enum.count(orderData)
 
     if count !== 0 do
-      map = for o <- 0..count-1, o >= 0  do
-                order_data = Enum.at(orderData, o)
-                data_order = Enum.at(order_data, 3)
-                orderId = elem(data_order, 1)
-                order_details_data = Order.getOrderDetailsById(restaurentId, orderId)
-                o_count = Enum.count(order_details_data)
-                if o_count !== 0 do
-                  total = 0
-                  new_total = for i <- 0..o_count-1, i >= 0 do
-                                  details_data = Enum.at(order_details_data, i)
-                                  price_data = Enum.at(details_data, 5)
-                                  price = elem(price_data, 1)
+      map =
+        for o <- 0..(count - 1), o >= 0 do
+          order_data = Enum.at(orderData, o)
+          data_order = Enum.at(order_data, 3)
+          orderId = elem(data_order, 1)
+          order_details_data = Order.getOrderDetailsById(restaurentId, orderId)
+          o_count = Enum.count(order_details_data)
 
-                                  count_data = Enum.at(details_data, 7)
-                                  counts = elem(count_data, 1)
+          if o_count !== 0 do
+            total = 0
 
-                                  t = price * counts
-                                  total = total + t
-                              end
-                  Map.put(order_data, :gTotal, new_total)
-                end
+            for i <- 0..(o_count - 1), i >= 0 do
+              details_data = Enum.at(order_details_data, i)
+              price_data = Enum.at(details_data, 5)
+              price = elem(price_data, 1)
+
+              count_data = Enum.at(details_data, 7)
+              counts = elem(count_data, 1)
+
+              t = price * counts
+              total = total + t
+
+              if i == o_count - 1 do
+                Map.put(order_data, :gTotal, total)
+              end
             end
-      data = %{"orderData" => map,"expenceData" => expenceData,"orderCount" => orderCount,"expenceCount" => expenceCount}
+          end
+        end
+
+      data = %{
+        "orderData" => map,
+        "expenceData" => expenceData,
+        "orderCount" => orderCount,
+        "expenceCount" => expenceCount
+      }
+
       broadcast!(socket, "get_report", %{data: data})
       {:noreply, socket}
     else
-      data = %{"orderData" => false,"expenceData" => expenceData,"orderCount" => orderCount,"expenceCount" => expenceCount}
+      data = %{
+        "orderData" => false,
+        "expenceData" => expenceData,
+        "orderCount" => orderCount,
+        "expenceCount" => expenceCount
+      }
+
       broadcast!(socket, "get_report", %{data: data})
       {:noreply, socket}
     end
