@@ -120,7 +120,7 @@ defmodule PosWeb.ExpenceChannel do
     if count !== 0 do
       map = for o <- 0..count-1, o >= 0  do
                 order_data = Enum.at(orderData, o)
-                data_order = Enum.at(order_data, 5)
+                data_order = Enum.at(order_data, 3)
                 orderId = elem(data_order, 1)
                 order_details_data = Order.getOrderDetailsById(restaurentId, orderId)
                 Map.put(order_data, :product, order_details_data)
