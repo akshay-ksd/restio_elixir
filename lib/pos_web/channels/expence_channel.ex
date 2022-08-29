@@ -143,21 +143,24 @@ defmodule PosWeb.ExpenceChannel do
           if o_count !== 0 do
             total = 0
 
-            for i <- 0..(o_count - 1), i >= 0 do
-              details_data = Enum.at(order_details_data, i)
-              price_data = Enum.at(details_data, 5)
-              price = elem(price_data, 1)
+            total =
+              for i <- 0..(o_count - 1), i >= 0 do
+                details_data = Enum.at(order_details_data, i)
+                price_data = Enum.at(details_data, 5)
+                price = elem(price_data, 1)
 
-              count_data = Enum.at(details_data, 7)
-              counts = elem(count_data, 1)
+                count_data = Enum.at(details_data, 7)
+                counts = elem(count_data, 1)
 
-              t = price * counts
-              total = total + t
+                price * counts
+                # total = total + t
 
-              if i == o_count - 1 do
-                Map.put(order_data, :gTotal, total)
+                # if i == o_count - 1 do
+                #   Map.put(order_data, :gTotal, total)
+                # end
               end
-            end
+
+            Map.put(order_data, :gTotal, total)
           end
         end
 
