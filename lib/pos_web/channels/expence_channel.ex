@@ -159,7 +159,7 @@ defmodule PosWeb.ExpenceChannel do
                 # end
               end
             gTotal = List.foldl(total,0, fn x, acc -> x + acc end)
-            Map.put(order_data, :gTotal, gTotal)
+            Map.put(order_data, :total, gTotal)
           end
         end
 

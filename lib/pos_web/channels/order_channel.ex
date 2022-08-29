@@ -29,7 +29,6 @@ defmodule PosWeb.OrderChannel do
     hour = order_data["hour"]
     minute = order_data["minute"]
     second = order_data["second"]
-    Logger.info(total)
     order_date = %DateTime{
       year: year,
       month: month,
