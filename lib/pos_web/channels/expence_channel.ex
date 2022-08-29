@@ -141,7 +141,6 @@ defmodule PosWeb.ExpenceChannel do
           o_count = Enum.count(order_details_data)
 
           if o_count !== 0 do
-            total = 0
 
             total =
               for i <- 0..(o_count - 1), i >= 0 do
@@ -159,8 +158,8 @@ defmodule PosWeb.ExpenceChannel do
                 #   Map.put(order_data, :gTotal, total)
                 # end
               end
-
-            Map.put(order_data, :gTotal, total)
+            gTotal = List.foldl(total,0, fn x, acc -> x + acc end)
+            Map.put(order_data, :gTotal, gTotal)
           end
         end
 
